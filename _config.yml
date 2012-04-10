@@ -4,7 +4,7 @@
 
 url: http://ghacker.github.com
 title: 劈柴者
-subtitle: 一个自称是黑客的人的隐修笔记
+subtitle: 黑客隐修笔记
 author: 或与非
 simple_search: http://google.com/search
 description:
@@ -89,8 +89,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: ghacker
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
