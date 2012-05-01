@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 技术 | 劈柴者]]></title>
   <link href="http://ghacker.github.com/blog/categories/技术/atom.xml" rel="self"/>
   <link href="http://ghacker.github.com/"/>
-  <updated>2012-05-01T11:16:45+08:00</updated>
+  <updated>2012-05-01T15:12:58+08:00</updated>
   <id>http://ghacker.github.com/</id>
   <author>
     <name><![CDATA[或与非]]></name>
@@ -175,7 +175,7 @@
 
 <h2>第二部分</h2>
 
-<h3>函数式编程的挑战</h3>
+<h3>函数式编程面临的挑战</h3>
 
 <p>函数是什么，你懂的：每次以相同的参数调用它，它总是会返回同样的结果。大量有用的计算直接映射为函数，但依然有许多计算没法这样做。我们经常不得不涉及一些非函数的计算方法。在非函数式语言中，这样的计算也经常被称为“函数”。Eugenio Moggi，这哥们将单子引入了计算，对于这样的“函数”给出了一些例子：</p>
 
