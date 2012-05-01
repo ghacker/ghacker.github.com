@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[劈柴者]]></title>
-  <link href="http://ghacker.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 技术 | 劈柴者]]></title>
+  <link href="http://ghacker.github.com/blog/categories/技术/atom.xml" rel="self"/>
   <link href="http://ghacker.github.com/"/>
   <updated>2012-05-01T11:14:21+08:00</updated>
   <id>http://ghacker.github.com/</id>
@@ -68,9 +68,9 @@
 
 <blockquote><p>说点题外话，范畴不一定非要建立于集合与函数之上。通过圆圈与箭头就可以很容易构建出简单的范畴。图 1 显示了一个包含两个对象（圆圈）与四个态射（箭头），可以看出任意两个态射都可以复合，而且 i<sub>A</sub> 与 i<sub>B</sub> 是单位态射。</p>
 
-<p><div style="width:100%;text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-01.gif" title="两个对象与四个态射构成的简单范畴" alt="图 1. 两个对象与四个态射构成的简单范畴" /></div></p></blockquote>
+<p><div style="width:100%;text-align:center;"><img src="/images/posts/monad-for-curious-programmer-01.gif" title="两个对象与四个态射构成的简单范畴" alt="图 1. 两个对象与四个态射构成的简单范畴" /></div></p></blockquote>
 
-<p>就这么多了。希望我已经使你深信范畴并不是什么了不起的东西。但是，我们还是务实一些。在编程语言中一个真正重要的范畴就是类型与函数的范畴，在 Haskell 中它被称为 Hask 范畴。一般是有一个基本类型的有限集，例如整型、布尔类型等；还有一个派生类型的无限集，像整型列表，从整型到布尔类型的函数等。在 Hask 中，类型仅仅是值的集合。例如 Char 类型是 {&#8216;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217;, &#8230;} 集合。</p>
+<p>就这么多了。希望我已经使你深信范畴并不是什么了不起的东西。但是，我们还是务实一些。在编程语言中一个真正重要的范畴就是类型与函数的范畴，在 Haskell 中它被称为 Hask 范畴。一般是有一个基本类型的有限集，例如整型、布尔类型等；还有一个派生类型的无限集，像整型列表，从整型到布尔类型的函数等。在 Hask 中，类型仅仅是值的集合。例如 Char 类型是 {'a', 'b', 'c', ...} 集合。</p>
 
 <p>因此，在 Hask 范畴中，类型是对象，函数是态射。实际上，函数将一种类型映射为另一种类型（暂时忘掉多个参数的函数——它们可以被丘奇化构建为单参数函数——和多态函数——它们是函数族）。并且在函数式编程观念中，这些函数如果给它们同样的值，它们也会返回同样的结果——没有副作用。</p>
 
@@ -86,7 +86,7 @@
 
 <p>首先，如果你在第一个范畴中两个对象之间有一个态射，它被很好的映射为第二个范畴中两个对象的之间的态射。如图 2 所示，对象 A 被映射为 F(A)，对象 B 被映射为 F(B)。从 A 到 B 的态射 f 被映射为从 F(A) 到 F(B) 的态射 F(f)。数学家说像这样的图必须满足交换律，就是说无论是先将 A 映射为 F(A) 然后应用 F(f)，还是先应用 f 然后将 B 映射为 F(B)，结果必须相同。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-02.gif" title="函子" alt="图 2. 作用于对象 A 与 B 及态射 f 的函子 F。底部是 F 的域（源）范畴，上部是它的陪域（目标）范畴"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-02.gif" title="函子" alt="图 2. 作用于对象 A 与 B 及态射 f 的函子 F。底部是 F 的域（源）范畴，上部是它的陪域（目标）范畴"></p>
 
 
 <p>还有，这样的映射应当保留态射的复合性。因此如果态射 h 是 f 与 g 的复合，那么 F(h) 必定是 F(f) 与 F(g) 的复合。当然，函子也必须将单位态射映射为单位态射。</p>
@@ -109,7 +109,7 @@
 
 <blockquote><p>这种通过映射来暴露系统结构的描述背后的直觉是什么？思考如图 3 所示的伦敦地铁路线图。该图只是由许多圆圈与线段构成。但它们是有意义的，因为伦敦城与这副图之间存在着映射。圆圈与地铁站相关，线段与铁路线相关。更为重要的是，如果列车在两个站点之间运行，那么图中相应的圆圈可以用线段连接起来，反之亦然：这些就是映射所保持的约束。地铁路线图显示了一种存在于伦敦（地下）的一种特定的结构，通过映射的方式使之昭然若揭。</p>
 
-<p><div style="width:100%;text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-03.gif" title="伦敦地铁路线图" alt="图 3. 伦敦地铁路线图" /></div></p>
+<p><div style="width:100%;text-align:center;"><img src="/images/posts/monad-for-curious-programmer-03.gif" title="伦敦地铁路线图" alt="图 3. 伦敦地铁路线图" /></div></p>
 
 <p>有趣的是，我在此所做的也是映射：伦敦与地铁路线图对应着两个范畴。地铁站/圆圈是对象，地铁线路/线段是态射。这个例子如何？</p></blockquote>
 
@@ -117,12 +117,12 @@
 
 <p>数学家喜欢可以保持明确约束的映射。正如我所解释过的，这样的映射从实现的细节中抽象出内部结构。但是你也能够通过研究自我映射的方式对结构有更多的了解。将一个范畴映射为其自身的函子称为自函子（像是可让你看见内部事物的内窥镜）。如果说函子揭示了范畴之间的相似性，那么自函子就是揭示了范畴的自相似性。观察一下图 4 所示的分形蕨类，你就会明白自相似性多么强大。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-04.png" title="自相似性" alt="图 4. 由 4 个自态射构造的分型蕨类"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-04.png" title="自相似性" alt="图 4. 由 4 个自态射构造的分型蕨类"></p>
 
 
 <p>稍微想像一下，你就会看到列表函子揭示了 Hask 范畴中像蕨类那样的结构，如图 5 所示。一组 Char 类型构成 Char 列表，一组 Char 列表又构成 Char 列表的列表，诸如此类，无穷无尽。由 Char 到 Bool 的函数所描述的水平结构被提升到高而更高的层次，使之作用于列表、列表的列表等等。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-05.jpg" title="列表函子" alt="图 5. 列表类型构造子的行为揭示了 Hask 内部类似蕨类的结构。这个函子将各个函数提升了，函数作用于水平方向"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-05.jpg" title="列表函子" alt="图 5. 列表类型构造子的行为揭示了 Hask 内部类似蕨类的结构。这个函子将各个函数提升了，函数作用于水平方向"></p>
 
 
 <blockquote><p>可将接受类型参数的 C++ 模板视为类型构造子。用它来定义一个函子怎么样？（不严格的说——C++ 不像 Haskll 那样数学化）。你必须自问：类型参数是被以任意方式约束的么？通常会很难回答，因为类型约束是隐藏于具体模板中的，只有在初始化期间方可测试。例如，std::vector 的类型参数必须是可复制的。这样的话就排除了具有私有成员或者删除了 copy 构造函数的类。不过这没什么问题，因为可复制的类型形成了一个子范畴（相当不严格的说）。重要的是一个可复制的向量其本身是可复制的，因此态射的“自”的部分就有了。通常你会希望能够将类型构造子所创建的类型再喂给这个类型构造子，就像这样 std::vector&lt;std::vector<Foo>>。当然，你也必须能够以一种一般化的方式提升函数，就像 std::transform 那样。</p></blockquote>
@@ -143,20 +143,25 @@
 
 <p>可将 unit 视为将一个底层的值嵌入到高层的一种自然的方式。顺便说一下，在编程中，那些为任意类型而定义的函数族被称为多态函数。在 C++ 中，我们可将 unit 表示为模板，像这样：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">template</span><span class="o">&lt;</span><span class="n">class</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">unit</span><span class="p">(</span><span class="n">T</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">unit</span><span class="p">(</span><span class="n">T</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">T</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>为了更好的解释 join 态射，想象一下作用两次的函子。例如，对于一个给定的类型 T，列表函子会首先构造类型 [T]，然后构造 [[T]]。join 态射会通过子列表的合并而移除一层列表态。通俗的说，它只是将内部列表连接起来。例如，给定的 [[a, b], [c], [d, e]]，join 态射会将其映射为 [a, b, c, d , e]。它是从富类型到穷类型的多向到单向的映射。join 态射的类型参数化也会形成一个多态函数（C++ 中的模板）。</p>
 
@@ -191,57 +196,23 @@
 
 <p>最简单的情况下，你可能会向返回值增加一位，表示成功或者失败。有时你也可以在返回值类型中增加一位：如果结果正确，那么它就是非负的，否则就是错误的。或者，如果返回值是指针，你可以返回一个空指针。但是这些办法只是为了效率而引入的一些小技巧。与大部分的小技巧一样，它们可能会导致危险的代码。看下面的代码（不大正确）：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">size_t</span> <span class="n">off</span> <span class="o">=</span> <span class="n">fileName</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;.&#39;</span><span class="p">);</span>
 </span><span class='line'><span class="n">string</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">fileName</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="n">fileName</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">off</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>如果 fileName 不包含点，结果是一个特定的值 npos，表示一个错误。问题是 npos 与非错误的结果并非同一类型，以致它在安静的传递给 string::substr 函数时导致一个未定义的行为。</p>
 
 <p>一个更加通用并且安全的方案是更改——扩展——结果的类型，使之包含一个错误位。对于任何类型你都可以这样做。在 Haskell 中，你只需定义一个叫做 Maybe 的类型构造子即可：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">Maybe</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Nothing</span> <span class="o">|</span> <span class="kt">Just</span> <span class="n">a</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>它接受一个任意类型 a，然后定义一种新的类型，该类型为类型 a 的可能集合增加了一个特殊的值 Nothing。在 C++ 中，这种做法等价于这样的模板：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">template</span><span class="o">&lt;</span><span class="n">class</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">Maybe</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">T</span> <span class="n">just</span><span class="p">;</span> <span class="c1">// valid if &#39;nothing&#39; is false</span>
-</span><span class='line'>    <span class="n">bool</span> <span class="n">nothing</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>（这只是一个示例而已。并非是讨论在 C++ 中 Maybe 会非常有用，C++ 有它自己的错误传播机制。）</p>
-
-<p>这样我们就有了一种可将一种没有针对所有的值而定义的函数转化为覆盖整个值域的函数了，只不过它返回的是一种新的富类型。</p>
-
-<p>第二个问题是这些新东西——返回 Maybe 的函数——可以复合吗？当调用者本身是更大计算的一部分的时候，它该如何处理这种函数的结果？有一件事情可以确定，这种函数的结果不能被直接传递给一个不对错误进行检测的函数——错误不能被轻易的忽略——即便这种函数很优秀。如果我们使用一个返回 Maybe<size_t> 的新函数 safe_find 来替换 find 函数，用户不能使用 substr 来调用它。因为类型不匹配。相反，safe_find 的结果必须要被解开并且进行测试（与我们之前做的差不多）。</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Maybe</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">off</span> <span class="o">=</span> <span class="n">safe_find</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="sc">&#39;.&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="n">string</span> <span class="n">ext</span><span class="p">;</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">off</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">ext</span> <span class="o">=</span> <span class="n">fileName</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">off</span><span class="p">.</span><span class="n">just</span><span class="p">,</span> <span class="n">fileName</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">off</span><span class="p">.</span><span class="n">just</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意这里发生了什么：通过更改函数的返回值类型，我们打破了函数组合的自然方式——一个函数的结果是下一个函数的输入。但是从另一角度来看，我们已经对这些函数提出了一种新的复合方式。看我如何以更好的效果将函数组合起来的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -249,45 +220,43 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Maybe</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">foo</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">Bar</span><span class="o">&gt;</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">just</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">bar</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">Baz</span><span class="o">&gt;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">bar</span><span class="p">.</span><span class="n">just</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">baz</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="p">...</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">template</span><span class="o">&lt;</span><span class="n">class</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Maybe</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">T</span> <span class="n">just</span><span class="p">;</span> <span class="c1">// valid if &#39;nothing&#39; is false</span>
+</span><span class='line'><span class="n">bool</span> <span class="n">nothing</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>（这只是一个示例而已。并非是讨论在 C++ 中 Maybe 会非常有用，C++ 有它自己的错误传播机制。）</p>
 
-<p>上面第 2、4、6 行代码就是胶水，用来复合我们的新的、更能容错的函数。注意这种模板式的胶水是如何以代码的形式直白呈现的。再完美一些，我们可能更喜欢像下面这样来写代码：</p>
+<p>这样我们就有了一种可将一种没有针对所有的值而定义的函数转化为覆盖整个值域的函数了，只不过它返回的是一种新的富类型。</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>第二个问题是这些新东西——返回 Maybe 的函数——可以复合吗？当调用者本身是更大计算的一部分的时候，它该如何处理这种函数的结果？有一件事情可以确定，这种函数的结果不能被直接传递给一个不对错误进行检测的函数——错误不能被轻易的忽略——即便这种函数很优秀。如果我们使用一个返回 Maybe<size_t> 的新函数 safe_find 来替换 find 函数，用户不能使用 substr 来调用它。因为类型不匹配。相反，safe_find 的结果必须要被解开并且进行测试（与我们之前做的差不多）。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">DO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">z</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">z</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Maybe</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">off</span> <span class="o">=</span> <span class="n">safe_find</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="sc">&#39;.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="n">string</span> <span class="n">ext</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">off</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">ext</span> <span class="o">=</span> <span class="n">fileName</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">off</span><span class="p">.</span><span class="n">just</span><span class="p">,</span> <span class="n">fileName</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">off</span><span class="p">.</span><span class="n">just</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>注意这里发生了什么：通过更改函数的返回值类型，我们打破了函数组合的自然方式——一个函数的结果是下一个函数的输入。但是从另一角度来看，我们已经对这些函数提出了一种新的复合方式。看我如何以更好的效果将函数组合起来的：</p>
 
-<p>其中 DO 可以隐式的提供这样的胶水用来复合 f, g 与 h。</p>
-
-<p>在 C++ 中要实现 DO 这样的胶水抽象会很难。我不打算折腾了。但是在 Haskell 中则别有一番天地。我们还是将上面的 C++ 代码翻译成 Haskell 代码：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -298,46 +267,26 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="kr">let</span> <span class="n">m</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">n</span> <span class="kr">in</span>
-</span><span class='line'>    <span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
-</span><span class='line'>    <span class="kt">Nothing</span> <span class="ow">-&gt;</span> <span class="kt">Nothing</span>
-</span><span class='line'>    <span class="kt">Just</span> <span class="n">n1</span> <span class="ow">-&gt;</span>
-</span><span class='line'>        <span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
-</span><span class='line'>        <span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
-</span><span class='line'>        <span class="kt">Nothing</span> <span class="ow">-&gt;</span> <span class="kt">Nothing</span>
-</span><span class='line'>        <span class="kt">Just</span> <span class="n">n2</span> <span class="ow">-&gt;</span>
-</span><span class='line'>            <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
-</span><span class='line'>            <span class="n">n3</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Maybe</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">foo</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">Maybe</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Bar</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">just</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">bar</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">Maybe</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Baz</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">bar</span><span class="p">.</span><span class="n">just</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">baz</span><span class="p">.</span><span class="n">nothing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>上面第 2、4、6 行代码就是胶水，用来复合我们的新的、更能容错的函数。注意这种模板式的胶水是如何以代码的形式直白呈现的。再完美一些，我们可能更喜欢像下面这样来写代码：</p>
 
-<p>C++ 代码中的 if 语言在 Haskell 中可以使用模式匹配（case x of）来替代。<strong>m</strong>s 是 Maybe 类型，<strong>n</strong>s 是 <strong>m</strong> 所包含的内容（假定 <strong>m</strong>s 不是 Nothing）。</p>
-
-<p>注意代码中的级联格式特征——嵌套的条件语句或模式匹配。我们分析其中的一层。代码是从一个 Maybe 值开始的（f n 的结果），第一层胶水是第 3—5 行代码。我们将这个 Maybe 值打开并且检测其中的内容。如果结果并非错误（Just n1），就继续执行后面的函数复合代码，即 6—11 行代码。</p>
-
-<p>如果结果是一个错误的话（模式匹配的 Nothing 分支），整个“剩余的复合代码”就会被忽略，这一点也非常重要。为了对胶水进行抽象，我们也必须对“剩余的复合代码”进行抽象。像这样的抽象，被称为“延续体”（Continuation）。我们可将延续体写为 lambda 函数（Haskell 中的 lambda 使用反斜线表示，就是希腊字母中的 λ 断了一条腿）：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">\</span> <span class="n">n1</span> <span class="ow">-&gt;</span>
-</span><span class='line'>    <span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
-</span><span class='line'>    <span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
-</span><span class='line'>    <span class="kt">Nothing</span> <span class="ow">-&gt;</span> <span class="kt">Nothing</span>
-</span><span class='line'>    <span class="kt">Just</span> <span class="n">n2</span> <span class="ow">-&gt;</span>
-</span><span class='line'>        <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
-</span><span class='line'>        <span class="n">n3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里有个技巧：我们可以将胶水抽象为一个（高阶）函数，它接受一个 Maybe 值和一个延续体。我们称这个新的函数为 bind，利用它重写 compose 函数如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -347,85 +296,192 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="kr">let</span> <span class="n">m</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">n</span> <span class="kr">in</span>
-</span><span class='line'>    <span class="c1">-- the first argument is m, the second is the whole continuation</span>
-</span><span class='line'>    <span class="n">bind</span> <span class="n">m</span> <span class="p">(</span><span class="nf">\</span><span class="n">n1</span> <span class="ow">-&gt;</span>
-</span><span class='line'>                <span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
-</span><span class='line'>                <span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
-</span><span class='line'>                <span class="kt">Nothing</span> <span class="ow">-&gt;</span> <span class="kt">Nothing</span>
-</span><span class='line'>                <span class="kt">Just</span> <span class="n">n2</span> <span class="ow">-&gt;</span>
-</span><span class='line'>                    <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
-</span><span class='line'>                    <span class="n">n3</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">DO</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">z</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">z</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>其中 DO 可以隐式的提供这样的胶水用来复合 f, g 与 h。</p>
 
-<p>bind 函数的实现如下：</p>
+<p>在 C++ 中要实现 DO 这样的胶水抽象会很难。我不打算折腾了。但是在 Haskell 中则别有一番天地。我们还是将上面的 C++ 代码翻译成 Haskell 代码：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">m</span> <span class="n">f</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
-</span><span class='line'>    <span class="kt">Nothing</span> <span class="ow">-&gt;</span> <span class="kt">Nothing</span>  <span class="c1">-- bypass the continuation</span>
-</span><span class='line'>    <span class="kt">Just</span> <span class="n">n</span> <span class="ow">-&gt;</span> <span class="n">f</span> <span class="n">n</span>       <span class="c1">-- pass n to the continuation</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kr">let</span> <span class="n">m</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">n</span> <span class="kr">in</span>
+</span><span class='line'><span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
+</span><span class='line'><span class="kt">Nothing</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Nothing</span>
+</span><span class='line'><span class="kt">Just</span> <span class="n">n1</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
+</span><span class='line'>    <span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
+</span><span class='line'>    <span class="kt">Nothing</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Nothing</span>
+</span><span class='line'>    <span class="kt">Just</span> <span class="n">n2</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>        <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
+</span><span class='line'>        <span class="n">n3</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>C++ 代码中的 if 语言在 Haskell 中可以使用模式匹配（case x of）来替代。<strong>m</strong>s 是 Maybe 类型，<strong>n</strong>s 是 <strong>m</strong> 所包含的内容（假定 <strong>m</strong>s 不是 Nothing）。</p>
+
+<p>注意代码中的级联格式特征——嵌套的条件语句或模式匹配。我们分析其中的一层。代码是从一个 Maybe 值开始的（f n 的结果），第一层胶水是第 3—5 行代码。我们将这个 Maybe 值打开并且检测其中的内容。如果结果并非错误（Just n1），就继续执行后面的函数复合代码，即 6—11 行代码。</p>
+
+<p>如果结果是一个错误的话（模式匹配的 Nothing 分支），整个“剩余的复合代码”就会被忽略，这一点也非常重要。为了对胶水进行抽象，我们也必须对“剩余的复合代码”进行抽象。像这样的抽象，被称为“延续体”（Continuation）。我们可将延续体写为 lambda 函数（Haskell 中的 lambda 使用反斜线表示，就是希腊字母中的 λ 断了一条腿）：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">\</span> <span class="n">n1</span> <span class="o">-&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
+</span><span class='line'><span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
+</span><span class='line'><span class="kt">Nothing</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Nothing</span>
+</span><span class='line'><span class="kt">Just</span> <span class="n">n2</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
+</span><span class='line'>    <span class="n">n3</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这里有个技巧：我们可以将胶水抽象为一个（高阶）函数，它接受一个 Maybe 值和一个延续体。我们称这个新的函数为 bind，利用它重写 compose 函数如下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kr">let</span> <span class="n">m</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">n</span> <span class="kr">in</span>
+</span><span class='line'><span class="c1">-- the first argument is m, the second is the whole continuation</span>
+</span><span class='line'><span class="nf">bind</span> <span class="n">m</span> <span class="p">(</span><span class="nf">\</span><span class="n">n1</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>            <span class="kr">let</span> <span class="n">m1</span> <span class="ow">=</span> <span class="n">g</span> <span class="n">n1</span> <span class="kr">in</span>
+</span><span class='line'>            <span class="kr">case</span> <span class="n">m1</span> <span class="kr">of</span>
+</span><span class='line'>            <span class="kt">Nothing</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Nothing</span>
+</span><span class='line'>            <span class="kt">Just</span> <span class="n">n2</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>                <span class="kr">let</span> <span class="n">n3</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">n2</span> <span class="kr">in</span>
+</span><span class='line'>                <span class="n">n3</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>bind 函数的实现如下：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">m</span> <span class="n">f</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kr">case</span> <span class="n">m</span> <span class="kr">of</span>
+</span><span class='line'><span class="kt">Nothing</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">Nothing</span>  <span class="c1">-- bypass the continuation</span>
+</span><span class='line'><span class="kt">Just</span> <span class="n">n</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">f</span> <span class="n">n</span>       <span class="c1">-- pass n to the continuation</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>或者更加紧凑一些：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="kt">Nothing</span> <span class="n">cont</span>  <span class="ow">=</span> <span class="kt">Nothing</span>
 </span><span class='line'><span class="nf">bind</span> <span class="p">(</span><span class="kt">Just</span> <span class="n">n</span><span class="p">)</span> <span class="n">cont</span> <span class="ow">=</span> <span class="n">cont</span> <span class="n">n</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>图 6 展示了整个代码的变换。 f n 的结果是一个 Maybe 值，它被传递给采用蓝色盒子表示的 bind 函数，在 bind 内部，Maybe 值被解开，如果所得的值是 Nothing，那么就什么都不发生；如果值是 Just n1，剩余的代码，即延续体会被使用 n1 作为参数值而调用。延续体本身可以使用 bind 进行重写。最终的延续体称为 return，后文再对它进行解释。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-06.gif" title="函数复合" alt="图 6. 返回 Maybe 值的函数的复合"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-06.gif" title="函数复合" alt="图 6. 返回 Maybe 值的函数的复合"></p>
 
 
 <p>图 6 中的蓝色盒子，bind 的位置在 Maybe 参数值与延续体之间，这暗示这中缀表示可能会更合适。的确是这样，在 Haskell 中 bind 是使用中缀操作符 >>= 来表示的：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">Nothing</span>  <span class="o">&gt;&gt;=</span> <span class="n">cont</span> <span class="ow">=</span> <span class="kt">Nothing</span>
 </span><span class='line'><span class="p">(</span><span class="kt">Just</span> <span class="n">x</span><span class="p">)</span> <span class="o">&gt;&gt;=</span> <span class="n">cont</span> <span class="ow">=</span> <span class="n">cont</span> <span class="n">x</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>（等号的左侧是位于两个参数值【实际上是模式】之间的操作符，右侧是函数体）我们可以将这个 bind 函数的类型表示为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="p">(</span><span class="o">&gt;&gt;=</span><span class="p">)</span> <span class="ow">::</span> <span class="kt">Maybe</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Maybe</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Maybe</span> <span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>它表示接受一个 Maybe a 和一个从 a 到 Maybe b 的函数（即我们的延续体），然后返回一个 Maybe b。在处理高阶函数时，我发现类型签名尤为有用；因此我经常使用它们来株式我的 C++ 元代码。</p>
 
 <p>使用 >>= 重写 compose 函数如下：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose1</span> <span class="n">n</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="n">f</span> <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n1</span> <span class="ow">-&gt;</span>
-</span><span class='line'>        <span class="n">g</span> <span class="n">n1</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n2</span> <span class="ow">-&gt;</span>
-</span><span class='line'>            <span class="n">h</span> <span class="n">n2</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n3</span> <span class="ow">-&gt;</span>
-</span><span class='line'>                <span class="n">return</span> <span class="n">n3</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose1</span> <span class="n">n</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">f</span> <span class="n">n</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n1</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">g</span> <span class="n">n1</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n2</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">h</span> <span class="n">n2</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n3</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">return</span> <span class="n">n3</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>现在到了解释函数末尾那个神秘的 return 的时间了。它当然不是表示从函数中返回一个值那样的关键字。它是一个函数，接受一个类型为 a 的参数值然后将其转化为一个 Maybe a 值：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">return</span> <span class="n">n</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="n">n</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>我们之所以需要 return 是因为 compose 的结果是一个 Maybe 值。如果 compose 中的任何一个函数都返回 Nothing，那么 compose 也会返回 Nothing（这是 >>= 的定义决定的）。只有在全部函数都成功的发生了作用之时，我们才应用 return 获得正确的结果 n3。return 将 n3 变为 Just n3，这宣示了计算是成功的，并且封装了最终的结果为 Maybe 类型的值。</p>
 
@@ -441,72 +497,63 @@
 
 <p>假设我们有一个类型构造子 M，它可以构造类型 a 的增强类型 M a。函数 fmap 的签名可表示为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">fmap</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">M</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>它将一个从 a 到 b 的函数映射为从 M a 到 M b 的函数。对于 Maybe 而言，我们已经知道了它的类型构造子部分，关于它的 fmap 下面便会有讲。</p>
 
 <p>让我们回到那个体现为返回一个增强类型的函数上，其类型签名一般为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">f</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>因为我们关注的是计算的复合性，我们需要一种方法可将这些增强的函数粘合到一起。在粘合的过程中，我们必须对增强类型的值进行检测并作出决断，例如判断是否继续执行剩余的计算或者终止。因此具有一般性的 bind 操作必须接受两个参数值：之前的增强函数的结果与剩余计算——一个延续体：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="ow">::</span> <span class="kt">M</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>如果你足够斜眼的话，便可以发现 bind 与 fmap 之间的相似性。</p>
 
 <p>可以这样认识 bind 与 fmap 之间的相似性：想像一下你向 bind 提供了第二个参数值，那个延续体。这样便余下一个类型为 M a 的自由参数，从而便构成一个从 M a 到 M b 的函数（这个不是严格的丘奇化，因为我们正在固定第二个参数值而不是第一个，但是思想是一致的）。这个从 M a 到 M b 的函数恰恰是 fmap 签名的右半部分。这样来看，bind 实际上是将函数映射为函数：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">M</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>左侧的函数是一个延续体，右侧的那个是 bind 协同第二个参数值（那个延续体）所构成的函数。</p>
 
 <p>因此 bind 函数的签名颇为类似 fmap，但是还不够。好在我们的装备种还有一个函数族，那个多态的 return。return 的签名是：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">return</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">a</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>使用 bind 与 return，我们可以提升任何函数 f：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">f</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>使之成为函数 g：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">g</span> <span class="ow">::</span> <span class="kt">M</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>下面是一个通过 f, bind 与 return 定义函数 g 的魔幻公式：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">g</span> <span class="n">ma</span> <span class="ow">=</span> <span class="n">bind</span> <span class="n">ma</span> <span class="p">(</span><span class="n">return</span> <span class="o">.</span> <span class="n">f</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>使用中缀表示法可写为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">g</span> <span class="n">ma</span> <span class="ow">=</span> <span class="n">ma</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="n">return</span> <span class="o">.</span> <span class="n">f</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这种将 f 化为 g 的映射就是我们对 fmap 的定义。当然，fmap 必须服从一些定律，特别是它必须保持函数复合性以及与 unit 交互的正确性。这些定律主要体现为与 bind 和 return 相关的一些条件，在此我不打算讨论它们。</p>
 
@@ -514,19 +561,17 @@
 
 <p>为了重现 join，先看一下在 Haskell 中它的类型签名：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">join</span> <span class="ow">::</span> <span class="kt">M</span> <span class="p">(</span><span class="kt">M</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">a</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>它将类型构造子坍缩了一层。对于 Maybe 而言，它应当将双层 Maybe 映射为单层 Maybe，即它应当将 Just (Just x) 映射为 Just x，其他值都映射为 Nothing。其实有一种更加通用的方式来定义 join 函数，使用 bind 与单位函数即可实现：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">join</span> <span class="ow">::</span> <span class="kt">M</span> <span class="p">(</span><span class="kt">M</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">M</span> <span class="n">a</span>
 </span><span class='line'><span class="nf">join</span> <span class="n">mmx</span> <span class="ow">=</span> <span class="n">mmx</span> <span class="o">&gt;&gt;=</span> <span class="n">id</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>我们所做的是将类型为 M (M a) 的值绑定到 id 函数。这个 id 函数作用于 M a 值，返回是相同的 M a 值。你完全可以确信这些类型签名是匹配 bind 的签名的（见附录）；而且这个定义作用于 Maybe 时，会产生正确的结果。</p>
 
@@ -536,56 +581,79 @@
 
 <p>现在你只是见识了 Maybe 的例子，可能看上去我们是拽出一只单子迫击炮灭掉一只蚊子。不过你以后会看到，披着不同伪装的同样的模式在大量的场合不断重现。实际上这在函数式语言中相当普遍，因此需要构建的语法糖。在 Haskell 中，这种语法糖叫 do 表达式。让我们倒一下车，看看 compose 的实现：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="n">f</span> <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n1</span> <span class="ow">-&gt;</span>
-</span><span class='line'>        <span class="n">g</span> <span class="n">n1</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n2</span> <span class="ow">-&gt;</span>
-</span><span class='line'>            <span class="n">h</span> <span class="n">n2</span> <span class="o">&gt;&gt;=</span> <span class="nf">\</span><span class="n">n3</span> <span class="ow">-&gt;</span>
-</span><span class='line'>                <span class="n">return</span> <span class="n">n3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是以 do 表达式写出的等价代码：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">int</span> <span class="nf">compose</span><span class="p">(</span><span class="n">Foo</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">n1</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">n2</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">n3</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">compose</span> <span class="n">n</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">f</span> <span class="n">n</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n1</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">g</span> <span class="n">n1</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n2</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">h</span> <span class="n">n2</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="nf">\</span><span class="n">n3</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>            <span class="n">return</span> <span class="n">n3</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>下面是以 do 表达式写出的等价代码：</p>
 
-<p>看上去伪装的很像一种命令式程序。下面是一个 C++ 的版本（假定 f 接受的是一个指向 Foo 值的指针，h 返回一个整型数）。</p>
-
-<p>呃，你还需要做一些事情，就是你该如何调用它：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">try</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">compose</span><span class="p">(</span><span class="n">pFoo</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="n">catch</span><span class="p">(...)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// error handling</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">int</span> <span class="nf">compose</span><span class="p">(</span><span class="n">Foo</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">auto</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">n1</span><span class="p">);</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">n2</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">n3</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>看上去伪装的很像一种命令式程序。下面是一个 C++ 的版本（假定 f 接受的是一个指向 Foo 值的指针，h 返回一个整型数）。</p>
+
+<p>呃，你还需要做一些事情，就是你该如何调用它：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">try</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">compose</span><span class="p">(</span><span class="n">pFoo</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span><span class='line'><span class="n">catch</span><span class="p">(...)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// error handling</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在 C++ 中，事实上你可以得到相同的函数性，只是并非通过修改返回类型，而是通过抛出异常而已（看到这些 C++ 代码，现在你可以发出第一声惊呼了，“嘿，看起来像是单子！”）</p>
 
@@ -605,10 +673,9 @@
 
 <p>前面，我曾通过定义函子与两个函数族的方式介绍过列表单子。这个函子的类型构造子部分可将任何类型 a 映射为 [a]。作用于函数的部分（现在我们知道了，这就是 fmap，不过对于列表而言它是 map）可将这个函数作用于列表中的每个元素。unit 与 join 都是多态函数，unit 被定义为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">unit</span> <span class="n">x</span> <span class="ow">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>join 函数就是 concat 函数。</p>
 
@@ -618,17 +685,15 @@
 
 <p>我们已经见识过列表单子的范畴论构造，但是这里我们面对的问题有些不同：如何将返回列表的函数串联起来。我们知道，这需要定义 bind 函数。它的签名在这种情况下是：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">])</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>它接受一个列表（前一个函数的结果）和一个延续体，(a -> [b])，结果必须要产生一个列表。连续体显然是要作用于所输入列表中每一个元素的。但是优于延续体也产生一个列表，我们最终得到的是列表的列表。为了得到单层列表，只需消除子列表即可。基于此，bind 的实现如下：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">xs</span> <span class="o">&gt;&gt;=</span> <span class="n">cont</span> <span class="ow">=</span> <span class="n">concat</span> <span class="p">(</span><span class="n">map</span> <span class="n">cont</span> <span class="n">xs</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>延续体作用于所输入列表中每个元素，是通过 map 来实现的。</p>
 
@@ -644,25 +709,31 @@
 
 <p>就像在 Maybe 的情况一样，我们可以对返回列表的函数应用 do 表达式：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">toss2Dice</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'>    <span class="n">n</span> <span class="ow">&lt;-</span> <span class="n">tossDie</span>
-</span><span class='line'>    <span class="n">m</span> <span class="ow">&lt;-</span> <span class="n">tossDie</span>
-</span><span class='line'>    <span class="n">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">++</span> <span class="n">m</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">toss2Dice</span> <span class="ow">=</span> <span class="kr">do</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">n</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">tossDie</span>
+</span><span class='line'><span class="nf">m</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">tossDie</span>
+</span><span class='line'><span class="nf">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">++</span> <span class="n">m</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>其中 tossDie 返回一个骰子投掷后所有可能的结果构成的列表，toss2Dice 返回的是骰子投掷两次所得的所有结果的总和所构成的列表。</p>
 
 <p>有趣的现象是列表单子与列表解析式的相关性。上面的例子等价于：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">toss2Dice</span> <span class="ow">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">m</span> <span class="o">|</span> <span class="n">n</span> <span class="ow">&lt;-</span> <span class="n">tossDie</span><span class="p">,</span> <span class="n">m</span> <span class="ow">&lt;-</span> <span class="n">tossDie</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">toss2Dice</span> <span class="ow">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">+</span> <span class="n">m</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">tossDie</span><span class="p">,</span> <span class="n">m</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">tossDie</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>总结</h3>
 
@@ -680,16 +751,21 @@
 
 <p>这种事情即便是在命令式编程中也是非常烦人的问题。全局变量的使用是特别不被推荐的。更好的解决方案是将状态封装起来，然后显式的传递给要使用它的函数。在面向对象语言中，作为一种语法糖，部分状态可以作为隐含的“this”或“self”参数值传递给函数。甚至有一种语法可以将这样的函数复合起来，像下面的 JavaScript 代码片段：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">with</span> <span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">var</span> <span class="n">t</span> <span class="ow">=</span> <span class="n">title</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">write</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="s">&quot; and more&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">with</span> <span class="p">(</span><span class="n">document</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">var</span> <span class="n">t</span> <span class="ow">=</span> <span class="n">title</span><span class="p">;</span>
+</span><span class='line'><span class="nf">write</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="s">&quot; and more&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>其中，title 与 write 分别是 document 对象的一个属性与一个方法（如果你带上单子眼镜的话，你看到的像是 do 语法块的一种东西）。</p>
 
@@ -697,41 +773,43 @@
 
 <p>总而言之，将依赖于状态的计算翻译为函数式语言的方法就是使用可以显式接受状态（封装在某种数据结构中）并且返回可能被修改的状态以及常规返回值的函数。例如，下面这样的 C++ “函数”：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">int</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">glob</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-</span><span class='line'>    <span class="n">glob</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">int</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">glob</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span><span class='line'><span class="n">glob</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span><span class='line'><span class="k">return</span> <span class="n">v</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这个函数操作着一个类型为 std::vector<int> 的全局向量 glob，将其翻译为 Haskell 函数：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pop</span> <span class="p">(</span><span class="kt">ST</span> <span class="n">lst</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">ST</span> <span class="p">(</span><span class="n">tail</span> <span class="n">lst</span><span class="p">),</span> <span class="n">head</span> <span class="n">lst</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这个 Haskell 函数操作着一个状态值，该值的类型为 Stack：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">newtype</span> <span class="kt">Stack</span> <span class="ow">=</span> <span class="kt">ST</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>值构造子 <code>ST</code> 可从一个整型数值列表创建一个 Stack 类型的值。这个值构造子也可用于模式匹配，像 pop 函数的参数那样。head 函数返回列表的第一个元素，tail 函数返回去除了第一个元素的列表。</p>
 
 <p>pop 函数的签名是典型的用于处理状态的函数签名：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">top</span><span class="ow">::</span> <span class="kt">Stack</span><span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Stack</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这种类型的函数通常被称为“动作（Action）”。</p>
 
@@ -743,10 +821,9 @@
 
 <p>上述方式更加复合单子之道。我们可以从一个通用的状态计算开始，该计算接受一个类型为 a 的参数值，返回一个类型为 b 的参数值，我们要将其转化为一个单子函数，使得该函数接受类型 a 的值并返回一个以 b 为基础的增强类型的值，只不过这一次增强类型是函数类型——动作而已。一般情况下，一个动作是接受一个状态（类型为 S 的值）并返回一个由状态与类型 b 的值所构成的二元组的函数，其签名如下：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kt">S</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">S</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这就是状态单子的第一要素——类型构造子：对于任意类型 t，它定义了一种新的类型：对于给定的状态计算类型为 t 的值的一个动作。这种类型构造子是状态单子的一部分。在通往状态单子的正式定义之前，我们需要热热身。</p>
 
@@ -754,68 +831,91 @@
 
 <p>基于状态的计算有一个完美的示例：一个基于状态的计算器。在该示例中，状态可表示为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">newtype</span> <span class="kt">Calc</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>其中隐含了一个整型数值列表——计算器栈。</p>
 
 <p>首先，我们定义一个单子函数（返回动作的函数），使之从计算器栈中弹出一个元素。这个是返回函数的函数，所以我们需要使用匿名函数来实现：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">popCalc</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="nf">\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="p">(</span><span class="n">tail</span> <span class="n">lst</span><span class="p">),</span> <span class="n">head</span> <span class="n">lst</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">popCalc</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="p">(</span><span class="n">tail</span> <span class="n">lst</span><span class="p">),</span> <span class="n">head</span> <span class="n">lst</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>匿名函数几乎是上面 pop 函数的翻版。注意 popCalc 函数不接受任何参数，但是它返回一个可以接受一个计算器状态作为参数值然后返回这个计算器状态与计算结果（计算器栈顶端的值）打包的值。换句话说，popCalc 返回的是一个承诺：一旦计算器栈可用之时，它便会返回栈顶的值。</p>
 
 <p>使用 popCalc 的方法是：首先，调用它并记录其返回的动作；然后创建一个计算器状态（带有一个非空栈）；继而将动作应用于计算器状态，对于所得结果可以使用模式匹配来获取最终用计算结果。具体过程如下：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">f</span> <span class="ow">=</span> <span class="n">popCalc</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">let</span> <span class="n">calc</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">let</span> <span class="p">(</span><span class="n">calc&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">calc</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">x</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">let</span> <span class="n">f</span> <span class="ow">=</span> <span class="n">popCalc</span>
+</span><span class='line'><span class="kr">let</span> <span class="n">calc</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="kr">let</span> <span class="p">(</span><span class="n">calc&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">calc</span>
+</span><span class='line'><span class="nf">x</span>
 </span><span class='line'><span class="mi">3</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote>
 
 <p>下面我们采用同样的思想实现 pushCalc 函数：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pushCalc</span> <span class="n">n</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="nf">\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="p">(</span><span class="n">n</span><span class="kt">:</span><span class="n">lst</span><span class="p">),</span> <span class="nb">()</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">pushCalc</span> <span class="n">n</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="p">(</span><span class="n">n</span><span class="kt">:</span><span class="n">lst</span><span class="p">),</span> <span class="nb">()</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>注意 pushClac 所产生的匿名函数返回的是一个被修改了的计算器状态以及一个类型为 unit 的特殊的值 ()——void 的 Haskell 对等物——的打包结果。这个函数如果使用命令式语言来实现，只能返回 void 并且通过副作用的方式进行工作。还应当注意到这个匿名函数实际上是一个闭包：它捕获外部变量 n 留待后续使用。</p>
 
 <p>最后，我们需要一个函数来执行一些计算，毕竟我们是要实现一个计算器。</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">addCalc</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="nf">\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kr">let</span> <span class="p">(</span><span class="n">a</span><span class="kt">:</span><span class="n">b</span><span class="kt">:</span><span class="n">rest</span><span class="p">)</span> <span class="ow">=</span> <span class="n">lst</span>
-</span><span class='line'>                   <span class="kr">in</span>
-</span><span class='line'>                       <span class="p">(</span><span class="kt">Calc</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="kt">:</span><span class="n">rest</span><span class="p">),</span> <span class="nb">()</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">addCalc</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span><span class="p">(</span><span class="kt">Calc</span> <span class="n">lst</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kr">let</span> <span class="p">(</span><span class="n">a</span><span class="kt">:</span><span class="n">b</span><span class="kt">:</span><span class="n">rest</span><span class="p">)</span> <span class="ow">=</span> <span class="n">lst</span>
+</span><span class='line'>               <span class="kr">in</span>
+</span><span class='line'>                   <span class="p">(</span><span class="kt">Calc</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="kt">:</span><span class="n">rest</span><span class="p">),</span> <span class="nb">()</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>其中我使用了模式 (a:b:rest) 来匹配计算器栈，以此来获取栈顶两个元素。被修改后的计算器状态，栈顶是原栈顶两个元素的和。</p>
 
 <p>我们可以使用这些函数的复合来实现更为复杂的操作，例如将两个数相加。下面的代码跟 Rube Goldberg 机有一拼：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -827,155 +927,189 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">add</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="kr">let</span> <span class="n">pux</span> <span class="ow">=</span> <span class="n">pushCalc</span> <span class="n">x</span> <span class="c1">-- 许诺将 x 压入栈</span>
-</span><span class='line'>        <span class="n">puy</span> <span class="ow">=</span> <span class="n">pushCalc</span> <span class="n">y</span> <span class="c1">-- 许诺从栈中弹出 y</span>
-</span><span class='line'>        <span class="n">axy</span> <span class="ow">=</span> <span class="n">addCalc</span>    <span class="c1">-- 许诺对栈顶两个元素求和</span>
-</span><span class='line'>        <span class="n">pp</span> <span class="ow">=</span> <span class="n">popCalc</span>     <span class="c1">-- 许诺从栈顶弹出结果</span>
-</span><span class='line'>        <span class="n">calc</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="kt">[]</span>   <span class="c1">-- 需要一个计算器状态</span>
-</span><span class='line'>        <span class="p">(</span><span class="n">calc1</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">pux</span> <span class="n">calc</span>  <span class="c1">-- 真的将 x 压入栈</span>
-</span><span class='line'>        <span class="p">(</span><span class="n">calc2</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">puy</span> <span class="n">calc1</span> <span class="c1">-- 真的将 y 弹出栈</span>
-</span><span class='line'>        <span class="p">(</span><span class="n">calc3</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">axy</span> <span class="n">calc2</span> <span class="c1">-- 真的对栈顶两个元素求和</span>
-</span><span class='line'>        <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">=</span> <span class="n">pp</span> <span class="n">calc3</span>      <span class="c1">-- 真的弹出求和结果</span>
-</span><span class='line'>    <span class="kr">in</span>
-</span><span class='line'>        <span class="n">z</span>  <span class="c1">-- return the result</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">add</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kr">let</span> <span class="n">pux</span> <span class="ow">=</span> <span class="n">pushCalc</span> <span class="n">x</span> <span class="c1">-- 许诺将 x 压入栈</span>
+</span><span class='line'>    <span class="n">puy</span> <span class="ow">=</span> <span class="n">pushCalc</span> <span class="n">y</span> <span class="c1">-- 许诺从栈中弹出 y</span>
+</span><span class='line'>    <span class="n">axy</span> <span class="ow">=</span> <span class="n">addCalc</span>    <span class="c1">-- 许诺对栈顶两个元素求和</span>
+</span><span class='line'>    <span class="n">pp</span> <span class="ow">=</span> <span class="n">popCalc</span>     <span class="c1">-- 许诺从栈顶弹出结果</span>
+</span><span class='line'>    <span class="n">calc</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="kt">[]</span>   <span class="c1">-- 需要一个计算器状态</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">calc1</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">pux</span> <span class="n">calc</span>  <span class="c1">-- 真的将 x 压入栈</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">calc2</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">puy</span> <span class="n">calc1</span> <span class="c1">-- 真的将 y 弹出栈</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">calc3</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">axy</span> <span class="n">calc2</span> <span class="c1">-- 真的对栈顶两个元素求和</span>
+</span><span class='line'>    <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">=</span> <span class="n">pp</span> <span class="n">calc3</span>      <span class="c1">-- 真的弹出求和结果</span>
+</span><span class='line'><span class="kr">in</span>
+</span><span class='line'>    <span class="n">z</span>  <span class="c1">-- return the result</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>实际上我们真正想做的是将小的动作组合为大的动作。对于这个目的，我们需要定义 bind 函数，在这种情况下，其签名应该是：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span> <span class="ow">-&gt;</span>        <span class="c1">-- 动作</span>
-</span><span class='line'>        <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span> <span class="ow">-&gt;</span>  <span class="c1">-- 延续体</span>
-</span><span class='line'>        <span class="p">(</span><span class="kt">Calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>           <span class="c1">-- 新动作</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span> <span class="ow">-&gt;</span>        <span class="c1">-- 动作&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="p">(</span><span class="n">a</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">Calc</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>  <span class="c1">-- 延续体</span>
+</span><span class='line'>    <span class="p">(</span><span class="kt">Calc</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>           <span class="c1">-- 新动作</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这个签名看起来要比 Maybe 单子的 bind 函数的签名复杂的多，但是这仅仅是因为前者的增强类型其本身也是一个函数类型，其他方面则是相同的：bind 接受一个动作和一个延续体，然后返回一个新动作。这种情况中的延续体接受一个类型为 a 的参数值（要被第一个动作计算的值），然后返回一个复合的动作。</p>
 
 <p>事实上，如果我们采用类型别名的形式定义动作：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">type</span> <span class="kt">Action</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>那么 bind 函数的签名可以缩写为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Action</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">Action</span> <span class="n">b</span><span class="p">))</span> <span class="ow">-&gt;</span>  <span class="p">(</span><span class="kt">Action</span> <span class="n">b</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>下面来看如何实现 bind。因为 bind 的结果是一个动作，那么它必须返回一个签名合适的匿名函数。</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">act</span> <span class="n">cont</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="nf">\</span><span class="n">calc</span> <span class="ow">-&gt;</span> <span class="o">...</span> <span class="err">生成</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="err">元组</span> <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">act</span> <span class="n">cont</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span><span class="n">calc</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="o">...</span> <span class="err">生成</span> <span class="p">(</span><span class="kt">Calc</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="err">元组</span> <span class="o">...</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>bind 是用于复合动作 act 与延续体 cont 的，因此它应当首先对 clac 应用 act：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">let</span> <span class="p">(</span><span class="n">calc&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">=</span> <span class="n">act</span> <span class="n">calc</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>结果是一个元组 (clac', v)，其中 v 是类型为 a 的值，这正是延续体所期望的参数值，因此紧接着就是应用延续体：</p>
 
-<p>结果是一个元组 (clac&#8217;, v)，其中 v 是类型为 a 的值，这正是延续体所期望的参数值，因此紧接着就是应用延续体：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">act&#39;</span> <span class="ow">=</span> <span class="n">cont</span> <span class="n">v</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>延续体的结果是一个新动作。这个新动作可以被执行，即应用于新的计算器状态</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">act&#39;</span> <span class="n">clac&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>从而产生所期望的结果——类型为 (Clac, b) 的元组。</p>
 
 <p>因此 bind 完整的代码是：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">act</span> <span class="n">cont</span> <span class="ow">=</span>
-</span><span class='line'>    <span class="nf">\</span><span class="n">calc</span> <span class="ow">-&gt;</span>
-</span><span class='line'>        <span class="kr">let</span> <span class="p">(</span><span class="n">calc&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">=</span> <span class="n">act</span> <span class="n">calc</span>
-</span><span class='line'>            <span class="n">act&#39;</span> <span class="ow">=</span> <span class="n">cont</span> <span class="n">v</span>
-</span><span class='line'>        <span class="kr">in</span>
-</span><span class='line'>            <span class="n">act&#39;</span> <span class="n">calc&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">bind</span> <span class="n">act</span> <span class="n">cont</span> <span class="o">=&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;\</span><span class="n">calc</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span>
+</span><span class='line'>    <span class="kr">let</span> <span class="p">(</span><span class="n">calc&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">=</span> <span class="n">act</span> <span class="n">calc</span>
+</span><span class='line'>        <span class="n">act&#39;</span> <span class="ow">=</span> <span class="n">cont</span> <span class="n">v</span>
+</span><span class='line'>    <span class="kr">in</span>
+</span><span class='line'>        <span class="n">act&#39;</span> <span class="n">calc&#39;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>为了完善状态单子的构造，我们还需要定义 return 函数，其签名为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">return</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Action</span> <span class="n">a</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>该函数的实现是相当直观的。它接受值 v 然后返回一个可以返回这个值的承诺：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">return</span> <span class="n">v</span> <span class="ow">=</span> <span class="nf">\</span><span class="n">calc</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>敏锐的读者可能会注意到这个 return 函数不依赖于类型 Calc 的什么特性的。对于任何表示状态的任何类型，它都可以工作。这样的话，我们就可以构造一个通用的状态单子了。基于状态的计算器就是这种单子的一个实例。</p>
 
 <p>将 bind 函数采用中缀操作符的形式表示并不困难，将计算器状态转化 Haskell 编译器可以识别的单子也不困难。这样，add 函数的相关部分就可以写成 do 表达式的形式：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">add</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'>    <span class="n">pushCalc</span> <span class="n">x</span>
-</span><span class='line'>    <span class="n">pushCalc</span> <span class="n">y</span>
-</span><span class='line'>    <span class="n">addCalc</span>
-</span><span class='line'>    <span class="n">r</span> <span class="ow">&lt;-</span> <span class="n">popCalc</span>
-</span><span class='line'>    <span class="n">return</span> <span class="n">r</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">add</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kr">do</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">pushCalc</span> <span class="n">x</span>
+</span><span class='line'><span class="nf">pushCalc</span> <span class="n">y</span>
+</span><span class='line'><span class="nf">addCalc</span>
+</span><span class='line'><span class="nf">r</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">popCalc</span>
+</span><span class='line'><span class="nf">return</span> <span class="n">r</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>上述代码如果进行脱糖的话，就可以变成级联潜逃的匿名函数式：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">add</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span>
-</span><span class='line'>  <span class="n">bind</span> <span class="p">(</span><span class="n">pushCalc</span> <span class="n">x</span><span class="p">)</span>
-</span><span class='line'>       <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="ow">-&gt;</span> <span class="n">bind</span> <span class="p">(</span><span class="n">pushCalc</span> <span class="n">y</span><span class="p">)</span>
-</span><span class='line'>                    <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="ow">-&gt;</span> <span class="n">bind</span> <span class="n">addCalc</span>
-</span><span class='line'>                                 <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="ow">-&gt;</span> <span class="n">bind</span> <span class="n">popCalc</span>
-</span><span class='line'>                                              <span class="p">(</span><span class="nf">\</span><span class="n">z</span> <span class="ow">-&gt;</span> <span class="n">return</span> <span class="n">z</span><span class="p">))))</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>  <span class="n">bind</span> <span class="p">(</span><span class="n">pushCalc</span> <span class="n">x</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bind</span> <span class="p">(</span><span class="n">pushCalc</span> <span class="n">y</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bind</span> <span class="n">addCalc</span>
+</span><span class='line'>                             <span class="p">(</span><span class="nf">\</span><span class="nb">()</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">bind</span> <span class="n">popCalc</span>
+</span><span class='line'>                                          <span class="p">(</span><span class="nf">\</span><span class="n">z</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">return</span> <span class="n">z</span><span class="p">))))</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>你在 Haskell 程序中通常看不到这样的表达式，只不过我想超越 Haskell 的范畴。我的目标是能够将其与 C++ 联系起来，这种形式最方便进行语义转换。</p>
 
 <p>因此我们不辞劳苦分析一下上面的代码。我们首先将第一个动作 (pushCalc x) 绑定到余下的代码。余下的代码是一个巨大的匿名函数。为了让这两部分匹配，他们的类型必须匹配。pushCalc 动作所生成的值是 void，因此其类型是 Action ()。因此它所绑定的匿名函数的类型也必须是接受 void 值的，其形式为：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">\</span><span class="nb">()</span> <span class="ow">-&gt;</span> <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nb">()</span> <span class="ow">-&gt;</span> <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>匿名函数体是又是一个 bind，以此类推，直至到达我们最感兴趣的部分——popCalc。</p>
 
@@ -990,29 +1124,6 @@
 <p>命令式语言中有许多种模式或多或少的呈现出状态单子的形式。例如在 OO 世界中你可能会遇到非常有用的<a href="http://en.wikipedia.org/wiki/Command_pattern">命令模式</a>。你可以使用<a href="http://en.wikipedia.org/wiki/Composite_pattern">复合模式</a>来“绑定”命令对象。在那些支持匿名函数与闭包的语言中，例如 JavaScript、C# 以及最近的 C++，你可以直接从函数返回函数。这可能对于处理逆向控制会有帮助，这种逆向控制表现为：你返回了一个闭包并将其作为事件处理器（对于这个问题，我会再写一系列博文）。</p>
 
 <p>其实我考虑的一个非常特殊的例子是：我曾经使用 C++ 以完全贴合单子模式的方式编程。这篇文章之后我会写这个。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[我的黑客观]]></title>
-    <link href="http://ghacker.github.com/blog/2012/04/10/wo-de-hei-ke-guan/"/>
-    <updated>2012-04-10T14:21:00+08:00</updated>
-    <id>http://ghacker.github.com/blog/2012/04/10/wo-de-hei-ke-guan</id>
-    <content type="html"><![CDATA[<p>从明天起，做一个幸福的人。喂马，劈柴，周游世界……</p>
-
-<p>Hacker 的本意就是劈柴的人。劈柴是个系统工程，实施时需要认真考虑木柴的长度、劈柴的环境、力度以及安全性<a href="http://blog.sciencenet.cn/home.php?mod=space&amp;uid=1750&amp;do=blog&amp;id=530479">[1]</a>。看着一堆被劈开的柴投入锅灶、壁炉燃起熊熊之火时，隐隐的会滋生一丝因为踏实而幸福的感觉。</p>
-
-<p>黑客也不外乎如此。这个站点的名字含有“劈柴者”，表达了我的黑客基本观，即因为参与了一些实际的行动并且从中感觉到幸福的人。</p>
-
-<p>将斧刃顺着木柴的纹理，像庖丁解牛那般自如的将木柴劈开。力度可以轻，也可以重。动作可以快，也可以慢。姿势可以庄重，也可以信手挥出。心情可以如汪洋般狂怒，也可以如湖水般沉静。从这样一件很平常的事情中能发现原则以及许多细微的乐趣，这是黑客的一种特质。</p>
-
-<p>柴劈的多了，经验便丰富起来。那就不妨尝试闭着眼睛运斧如风，直劈而就。甚至可以不再劈柴，而是尝试削掉某人鼻尖上沾染的一点灰尘。当然，削鼻尖之灰尘非常危险，但 hack 一个程序是无须担心生死问题的。勇敢并且相信直觉。劈柴到了这种境界，可以放下斧头，静静的思考了。</p>
-
-<p>劈柴不只是劈柴。在执着的过程中，总会有一天，突然发现自己在劈柴中获得的经验、勇敢和直觉对人生有着深刻的启迪。心事浩茫连广宇，于无声处听惊雷。许多黑客是在程序代码的世界领悟到许多深刻的道理，他们从开始的执着于代码到最后扔掉代码，深邃的思想可以不需要借助外物来呈现，或者可以借助任何外物来呈现。Stallman 在软件世界建立政治哲学，Linus 在其中涂抹个人英雄主义，Raymond 则整理传播了文化。我们的软件技艺即便是炉火纯青，也只能帮助很少的一部分人，但是那些闪光的思想可以帮助到更多的人。</p>
-
-<p>实际的行动，有原则的自由，勇敢与直觉，不断反思所做之事中关乎人生的道理，这些是我的黑客观。也许你不懂网络入侵，也不懂内核代码，但只要是在自己兴趣所及的区间企图达到这四种境界，我都会尊你为黑客。</p>
-
-<p>我想要努力的做到这些。</p>
 ]]></content>
   </entry>
   

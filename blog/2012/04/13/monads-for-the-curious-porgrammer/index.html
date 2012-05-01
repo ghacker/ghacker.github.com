@@ -1,24 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[劈柴者]]></title>
-  <link href="http://ghacker.github.com/atom.xml" rel="self"/>
-  <link href="http://ghacker.github.com/"/>
-  <updated>2012-05-01T11:14:21+08:00</updated>
-  <id>http://ghacker.github.com/</id>
-  <author>
-    <name><![CDATA[或与非]]></name>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>单子求索 - 劈柴者</title>
+    <meta name="author" content="或与非">
+
     
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+    <meta name="description" content="单子求索 如是我闻： 单子空空，力量无限
+用之愈多，所得愈多
+谈之愈多，知之愈少 ——《单子之道》 这样说不知是否夸张，似乎每个懂得了单子的程序员都会写一篇关于它的文章（而且每一篇的开头都是：网络上已经有了许多单子指南，但是……）。原因是对于单子的理解像是一种灵魂感悟，你想与他人分享。 &hellip;">
+    
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
 
-  
-  <entry>
-    <title type="html"><![CDATA[单子求索]]></title>
-    <link href="http://ghacker.github.com/blog/2012/04/13/monads-for-the-curious-porgrammer/"/>
-    <updated>2012-04-13T09:36:00+08:00</updated>
-    <id>http://ghacker.github.com/blog/2012/04/13/monads-for-the-curious-porgrammer</id>
-    <content type="html"><![CDATA[<pre><code>如是我闻：
+    <link href="/atom.xml" rel="alternate" title="劈柴者" type="application/atom+xml">
+    <link rel="canonical" href="">
+    <link href="/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    
+    
+
+</head>
+
+<body>
+	<header class="inner"><h1 class="left"><a href="/">劈柴者</a></h1>
+<nav class="menu left"><ul class="main">
+	<li><a href="/">笔记</a></li>
+	<li><a href="/blog/archives">归档</a></li>
+</ul>
+</nav>
+<div class="right">
+	<form class="search right" action="http://google.com/search" method="get">
+		<input class="left" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:ghacker.github.com">
+	</form>
+	<div class="social right">
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</div>
+
+</header>
+	
+	<div id="content" class="inner"><article class="post">
+    <h1 class="title">单子求索</h1>
+    <div class="entry"><pre><code>如是我闻：
 
 单子空空，力量无限
 用之愈多，所得愈多
@@ -68,7 +102,7 @@
 
 <blockquote><p>说点题外话，范畴不一定非要建立于集合与函数之上。通过圆圈与箭头就可以很容易构建出简单的范畴。图 1 显示了一个包含两个对象（圆圈）与四个态射（箭头），可以看出任意两个态射都可以复合，而且 i<sub>A</sub> 与 i<sub>B</sub> 是单位态射。</p>
 
-<p><div style="width:100%;text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-01.gif" title="两个对象与四个态射构成的简单范畴" alt="图 1. 两个对象与四个态射构成的简单范畴" /></div></p></blockquote>
+<p><div style="width:100%;text-align:center;"><img src="/images/posts/monad-for-curious-programmer-01.gif" title="两个对象与四个态射构成的简单范畴" alt="图 1. 两个对象与四个态射构成的简单范畴" /></div></p></blockquote>
 
 <p>就这么多了。希望我已经使你深信范畴并不是什么了不起的东西。但是，我们还是务实一些。在编程语言中一个真正重要的范畴就是类型与函数的范畴，在 Haskell 中它被称为 Hask 范畴。一般是有一个基本类型的有限集，例如整型、布尔类型等；还有一个派生类型的无限集，像整型列表，从整型到布尔类型的函数等。在 Hask 中，类型仅仅是值的集合。例如 Char 类型是 {&#8216;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217;, &#8230;} 集合。</p>
 
@@ -86,7 +120,7 @@
 
 <p>首先，如果你在第一个范畴中两个对象之间有一个态射，它被很好的映射为第二个范畴中两个对象的之间的态射。如图 2 所示，对象 A 被映射为 F(A)，对象 B 被映射为 F(B)。从 A 到 B 的态射 f 被映射为从 F(A) 到 F(B) 的态射 F(f)。数学家说像这样的图必须满足交换律，就是说无论是先将 A 映射为 F(A) 然后应用 F(f)，还是先应用 f 然后将 B 映射为 F(B)，结果必须相同。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-02.gif" title="函子" alt="图 2. 作用于对象 A 与 B 及态射 f 的函子 F。底部是 F 的域（源）范畴，上部是它的陪域（目标）范畴"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-02.gif" title="函子" alt="图 2. 作用于对象 A 与 B 及态射 f 的函子 F。底部是 F 的域（源）范畴，上部是它的陪域（目标）范畴"></p>
 
 
 <p>还有，这样的映射应当保留态射的复合性。因此如果态射 h 是 f 与 g 的复合，那么 F(h) 必定是 F(f) 与 F(g) 的复合。当然，函子也必须将单位态射映射为单位态射。</p>
@@ -109,7 +143,7 @@
 
 <blockquote><p>这种通过映射来暴露系统结构的描述背后的直觉是什么？思考如图 3 所示的伦敦地铁路线图。该图只是由许多圆圈与线段构成。但它们是有意义的，因为伦敦城与这副图之间存在着映射。圆圈与地铁站相关，线段与铁路线相关。更为重要的是，如果列车在两个站点之间运行，那么图中相应的圆圈可以用线段连接起来，反之亦然：这些就是映射所保持的约束。地铁路线图显示了一种存在于伦敦（地下）的一种特定的结构，通过映射的方式使之昭然若揭。</p>
 
-<p><div style="width:100%;text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-03.gif" title="伦敦地铁路线图" alt="图 3. 伦敦地铁路线图" /></div></p>
+<p><div style="width:100%;text-align:center;"><img src="/images/posts/monad-for-curious-programmer-03.gif" title="伦敦地铁路线图" alt="图 3. 伦敦地铁路线图" /></div></p>
 
 <p>有趣的是，我在此所做的也是映射：伦敦与地铁路线图对应着两个范畴。地铁站/圆圈是对象，地铁线路/线段是态射。这个例子如何？</p></blockquote>
 
@@ -117,12 +151,12 @@
 
 <p>数学家喜欢可以保持明确约束的映射。正如我所解释过的，这样的映射从实现的细节中抽象出内部结构。但是你也能够通过研究自我映射的方式对结构有更多的了解。将一个范畴映射为其自身的函子称为自函子（像是可让你看见内部事物的内窥镜）。如果说函子揭示了范畴之间的相似性，那么自函子就是揭示了范畴的自相似性。观察一下图 4 所示的分形蕨类，你就会明白自相似性多么强大。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-04.png" title="自相似性" alt="图 4. 由 4 个自态射构造的分型蕨类"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-04.png" title="自相似性" alt="图 4. 由 4 个自态射构造的分型蕨类"></p>
 
 
 <p>稍微想像一下，你就会看到列表函子揭示了 Hask 范畴中像蕨类那样的结构，如图 5 所示。一组 Char 类型构成 Char 列表，一组 Char 列表又构成 Char 列表的列表，诸如此类，无穷无尽。由 Char 到 Bool 的函数所描述的水平结构被提升到高而更高的层次，使之作用于列表、列表的列表等等。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-05.jpg" title="列表函子" alt="图 5. 列表类型构造子的行为揭示了 Hask 内部类似蕨类的结构。这个函子将各个函数提升了，函数作用于水平方向"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-05.jpg" title="列表函子" alt="图 5. 列表类型构造子的行为揭示了 Hask 内部类似蕨类的结构。这个函子将各个函数提升了，函数作用于水平方向"></p>
 
 
 <blockquote><p>可将接受类型参数的 C++ 模板视为类型构造子。用它来定义一个函子怎么样？（不严格的说——C++ 不像 Haskll 那样数学化）。你必须自问：类型参数是被以任意方式约束的么？通常会很难回答，因为类型约束是隐藏于具体模板中的，只有在初始化期间方可测试。例如，std::vector 的类型参数必须是可复制的。这样的话就排除了具有私有成员或者删除了 copy 构造函数的类。不过这没什么问题，因为可复制的类型形成了一个子范畴（相当不严格的说）。重要的是一个可复制的向量其本身是可复制的，因此态射的“自”的部分就有了。通常你会希望能够将类型构造子所创建的类型再喂给这个类型构造子，就像这样 std::vector&lt;std::vector<Foo>>。当然，你也必须能够以一种一般化的方式提升函数，就像 std::transform 那样。</p></blockquote>
@@ -384,7 +418,7 @@
 
 <p>图 6 展示了整个代码的变换。 f n 的结果是一个 Maybe 值，它被传递给采用蓝色盒子表示的 bind 函数，在 bind 内部，Maybe 值被解开，如果所得的值是 Nothing，那么就什么都不发生；如果值是 Just n1，剩余的代码，即延续体会被使用 n1 作为参数值而调用。延续体本身可以使用 bind 进行重写。最终的延续体称为 return，后文再对它进行解释。</p>
 
-<p style="text-align:center;"><img src="http://ghacker.github.com/images/posts/monad-for-curious-programmer-06.gif" title="函数复合" alt="图 6. 返回 Maybe 值的函数的复合"></p>
+<p style="text-align:center;"><img src="/images/posts/monad-for-curious-programmer-06.gif" title="函数复合" alt="图 6. 返回 Maybe 值的函数的复合"></p>
 
 
 <p>图 6 中的蓝色盒子，bind 的位置在 Maybe 参数值与延续体之间，这暗示这中缀表示可能会更合适。的确是这样，在 Haskell 中 bind 是使用中缀操作符 >>= 来表示的：</p>
@@ -990,30 +1024,65 @@
 <p>命令式语言中有许多种模式或多或少的呈现出状态单子的形式。例如在 OO 世界中你可能会遇到非常有用的<a href="http://en.wikipedia.org/wiki/Command_pattern">命令模式</a>。你可以使用<a href="http://en.wikipedia.org/wiki/Composite_pattern">复合模式</a>来“绑定”命令对象。在那些支持匿名函数与闭包的语言中，例如 JavaScript、C# 以及最近的 C++，你可以直接从函数返回函数。这可能对于处理逆向控制会有帮助，这种逆向控制表现为：你返回了一个闭包并将其作为事件处理器（对于这个问题，我会再写一系列博文）。</p>
 
 <p>其实我考虑的一个非常特殊的例子是：我曾经使用 C++ 以完全贴合单子模式的方式编程。这篇文章之后我会写这个。</p>
-]]></content>
-  </entry>
+</div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[我的黑客观]]></title>
-    <link href="http://ghacker.github.com/blog/2012/04/10/wo-de-hei-ke-guan/"/>
-    <updated>2012-04-10T14:21:00+08:00</updated>
-    <id>http://ghacker.github.com/blog/2012/04/10/wo-de-hei-ke-guan</id>
-    <content type="html"><![CDATA[<p>从明天起，做一个幸福的人。喂马，劈柴，周游世界……</p>
 
-<p>Hacker 的本意就是劈柴的人。劈柴是个系统工程，实施时需要认真考虑木柴的长度、劈柴的环境、力度以及安全性<a href="http://blog.sciencenet.cn/home.php?mod=space&amp;uid=1750&amp;do=blog&amp;id=530479">[1]</a>。看着一堆被劈开的柴投入锅灶、壁炉燃起熊熊之火时，隐隐的会滋生一丝因为踏实而幸福的感觉。</p>
 
-<p>黑客也不外乎如此。这个站点的名字含有“劈柴者”，表达了我的黑客基本观，即因为参与了一些实际的行动并且从中感觉到幸福的人。</p>
+<time datetime="2012-04-13T09:36:00+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2012</time></div>
+        <div class="tags">
 
-<p>将斧刃顺着木柴的纹理，像庖丁解牛那般自如的将木柴劈开。力度可以轻，也可以重。动作可以快，也可以慢。姿势可以庄重，也可以信手挥出。心情可以如汪洋般狂怒，也可以如湖水般沉静。从这样一件很平常的事情中能发现原则以及许多细微的乐趣，这是黑客的一种特质。</p>
-
-<p>柴劈的多了，经验便丰富起来。那就不妨尝试闭着眼睛运斧如风，直劈而就。甚至可以不再劈柴，而是尝试削掉某人鼻尖上沾染的一点灰尘。当然，削鼻尖之灰尘非常危险，但 hack 一个程序是无须担心生死问题的。勇敢并且相信直觉。劈柴到了这种境界，可以放下斧头，静静的思考了。</p>
-
-<p>劈柴不只是劈柴。在执着的过程中，总会有一天，突然发现自己在劈柴中获得的经验、勇敢和直觉对人生有着深刻的启迪。心事浩茫连广宇，于无声处听惊雷。许多黑客是在程序代码的世界领悟到许多深刻的道理，他们从开始的执着于代码到最后扔掉代码，深邃的思想可以不需要借助外物来呈现，或者可以借助任何外物来呈现。Stallman 在软件世界建立政治哲学，Linus 在其中涂抹个人英雄主义，Raymond 则整理传播了文化。我们的软件技艺即便是炉火纯青，也只能帮助很少的一部分人，但是那些闪光的思想可以帮助到更多的人。</p>
-
-<p>实际的行动，有原则的自由，勇敢与直觉，不断反思所做之事中关乎人生的道理，这些是我的黑客观。也许你不懂网络入侵，也不懂内核代码，但只要是在自己兴趣所及的区间企图达到这四种境界，我都会尊你为黑客。</p>
-
-<p>我想要努力的做到这些。</p>
-]]></content>
-  </entry>
+<div class="cat">
   
-</feed>
+    <a class='category' href='/blog/categories/haskell/'>Haskell</a>, <a class='category' href='/blog/categories/单子/'>单子</a>, <a class='category' href='/blog/categories/技术/'>技术</a>
+  
+</div>
+
+</div>
+        
+        <span class="comments"><a href="#disqus_thread">Comments</a></span>
+        
+    </div>
+</article>
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer class="inner">Copyright &copy; 2012 劈柴者</footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script src="/javascripts/slash.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ghacker';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ghacker.github.com/blog/2012/04/13/monads-for-the-curious-porgrammer/';
+        var disqus_url = 'http://ghacker.github.com/blog/2012/04/13/monads-for-the-curious-porgrammer/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+</body>
+</html>
