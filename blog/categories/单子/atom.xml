@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 单子 | 劈柴者]]></title>
   <link href="http://ghacker.github.com/blog/categories/单子/atom.xml" rel="self"/>
   <link href="http://ghacker.github.com/"/>
-  <updated>2012-05-01T15:12:58+08:00</updated>
+  <updated>2012-07-08T11:10:22+08:00</updated>
   <id>http://ghacker.github.com/</id>
   <author>
     <name><![CDATA[或与非]]></name>
@@ -1081,7 +1081,7 @@
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>上述代码如果进行脱糖的话，就可以变成级联潜逃的匿名函数式：</p>
+<p>上述代码如果进行脱糖的话，就可以变成级联嵌套的匿名函数式：</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

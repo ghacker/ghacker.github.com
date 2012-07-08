@@ -1,0 +1,948 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>48 小时写一个属于你的 Scheme 解释器 - 劈柴者</title>
+    <meta name="author" content="或与非">
+
+    
+    <meta name="description" content="48 小时写一个属于你的 Scheme 解释器 原文见：Write Yourself a Scheme in 48 Hours。本文档对原文档的更新不作出跟随的承诺。 48 小时写一个属于你的 Scheme 解释器，这是一份重要的 Haskell 编程指南，由 Jonathan Tang 所写。 &hellip;">
+    
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
+
+    <link href="/atom.xml" rel="alternate" title="劈柴者" type="application/atom+xml">
+    <link rel="canonical" href="">
+    <link href="/favicon.png" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    
+    
+
+</head>
+
+<body>
+	<header class="inner"><h1 class="left"><a href="/">劈柴者</a></h1>
+<nav class="menu left"><ul class="main">
+	<li><a href="/">笔记</a></li>
+	<li><a href="/blog/archives">归档</a></li>
+</ul>
+</nav>
+<div class="right">
+	<form class="search right" action="http://google.com/search" method="get">
+		<input class="left" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:ghacker.github.com">
+	</form>
+	<div class="social right">
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</div>
+
+</header>
+	
+	<div id="content" class="inner"><article class="post">
+    <h1 class="title">48 小时写一个属于你的 Scheme 解释器</h1>
+    <div class="entry"><p>原文见：<a href="http://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours">Write Yourself a Scheme in 48 Hours</a>。本文档对原文档的更新不作出跟随的承诺。</p>
+
+<p>48 小时写一个属于你的 Scheme 解释器，这是一份重要的 Haskell 编程指南，由 Jonathan Tang 所写。感谢 Jonathan 对该文档的授权。贡献者们可以自由修改这份指南的 Wiki 版本！</p>
+
+<!--more-->
+
+
+<h2>〇、 概览</h2>
+
+<p>网络上的大部分 Haskell 指南似乎都是采用语言参考手册的方式讲授的。它们向你展示语法、一点语言的构造思想，并教你在 Haskell 解释器中构建一些简单的函数。而真正“困难的东西”，即如何写一个有用的函数式程序往往是放在了最后才讲，有的指南则完全忽略这一点。</p>
+
+<p>这份指南采取了不同的方式。你将会从一个命令行参数解析程序开始，逐步到写出一个完全函数式的 Scheme 解释器。这里所说的 Scheme 是 <a href="http://www.schemers.org/Documents/Standards/R5RS/HTML">R<sup>5</sup>RS Scheme</a> 的一个经过适当裁剪的子集。基于这种方式，你将会掌握 Haskell 的 I/O、可变状态、动态类型、错误处理以及解析功能。待读完这份教程之后，你便会对 Haskell 与 Scheme 相当的熟稔。</p>
+
+<p>这份指南的主要受众有两类：</p>
+
+<ul>
+<li>已对 Lisp 或 Scheme 有所了解并且想学习 Haskell 的人群</li>
+<li>对编程一无所知但是具备深厚的背景知识并且熟悉计算机的人群</li>
+</ul>
+
+
+<p>当我掩盖 Scheme 的一些细节以及一般性的编程概念而主要关注 Haskell 之时，第二类人群可能会发现这是一个挑战。对于这一问题，像 <a href="http://mitpress.mit.edu/sicp/full-text/book/book.html">Structure and Interpretation of Computer Programs</a> 或 <a href="http://www.ccs.neu.edu/home/matthias/BTLS/">The Little Schemer</a> 这样优秀的教材可能会很有帮助。</p>
+
+<p>不过，对于像 C、Java 或 Python 这些过程式或面向对象式的语言的用户应当小心：你需要忘掉你对于编程所积累的大部分经验。与这些语言相比，Haskell 是完全不同的，并且编程方式也是不同的。最好是秉持白板一样并且尽力不与命令式语言进行比较的心态步入这份指南，因为那些语言中的许多概念（类、函数、return）在 Haskell 中有着截然不同的含义。</p>
+
+<p>因为每一章都是构建于前一章所写的代码的基础之上，最好是按次序阅读各章。</p>
+
+<p>这份指南假定你使用的 Haskell 编译器是 <a href="http://www.haskell.org/ghc/">GHC</a>。其他编译器，例如 <a href="http://www.haskell.org/hugs/">Hugs</a> 兴许也行，但是没有经过测试，可能需要你安装一些附加的库。</p>
+
+<p>源代码可从这里下载：<a href="http://jonathan.tang.name/files/scheme_in_48/code/">代码清单</a>。</p>
+
+<h2>一、 编译与运行</h2>
+
+<p>略过如何安装 GHC 以及如何编写 Haskell 代码的废话。现在是开始写你的第一个 Haskell 程序的时间。这个程序将会从命令行读取一个名字，然后打印一句问候。创建一个以 <code>.hs</code> 作为文件名结尾的文件，内容如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">module</span> <span class="nn">Main</span> <span class="kr">where</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">System.Environment</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
+</span><span class='line'>          <span class="n">putStrLn</span> <span class="p">(</span><span class="s">&quot;Hello, &quot;</span> <span class="o">++</span> <span class="n">args</span> <span class="o">!!</span> <span class="mi">0</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让我们在这份代码中游览一番。前两行代码表明：我们将要创建一个名为 <code>Main</code> 的模块，这个模块又导入了 <code>System</code> 模块。每个 Haskell 程序都会以一个叫做 <code>main</code> 的动作开始，这个动作位于一个名为 <code>Main</code> 的模块。这个模块可以导入其他模块，但只有它用于供编译器生成可执行文件。Haskell 是大小写敏感的：模块名总是以大写字母开头。</p>
+
+<p><code>main :: IO ()</code> 行是类型声明：它表明了 <code>main</code> 的类型是 <code>IO ()</code>，而这种类型的含义是运送一个单元（unit）类型 <code>()</code> 的值的 IO 动作。单元类型只有一个值，即 <code>()</code>，表示不承载任何信息。Haskell 的类型声明是可选的：编译器可以自动识别出类型，只有当它们与你所指定的类型不符时，编译器才会报错。在这份指南中，为了代码的清晰，我会显式的指明所有的类型声明。如果你在家中抄写代码作为练习的时候，你可能想省略它们以节省码字时间。</p>
+
+<p><code>IO</code> 类型是一种叫做单子（Monad）的东西的一个实例。单子这个名字听起来有些吓人，但它所表示的概念并不太吓人。简单的说，单子是描述“我们将会以某种特定的方式运送或组合一些值及其相关的附加信息，这些附加信息对于大部分函数而言无关紧要”的一种方式。我们如何运送值的附加信息以及如何将这些值组合起来决定了特定的单子类型；值本身可能会有变化或者经由常规的函数（被动作调用）从一种类型转化为另一种类型，它不会影响到其外围附加的那些东西，但是值的变化必须要在同一条管道（值的传播机制）中进行。</p>
+
+<p>对于 <code>IO ()</code> 类型，“附加信息”就是待被执行的 IO 动作，该动作的执行需要借助它所承载的值以及那个类型为 <code>()</code>的空值。<code>IO [String]</code> 与 <code>IO ()</code> 是伴随不同基本类型的同一单子类型，意味着它们都是作用于不同类型的值并且传递这些值的 IO 动作。单子化的值与封装在其内的基本值组合而成的东西通常被称为“动作”（其实只有状态单子有这样的称谓），因为理解 IO 单子最容易的方式是动作的序列化，其中每个动作都可能会影响外部世界。</p>
+
+<p>Haskell 是一种函数式语言：它不是向计算机提供一个待被执行的指令序列，而是要给出一个充满定义的集合，这个集合描述了如何执行它可能需要的每个函数。这些定义是通过各种动作的组合以及函数而实现的。编译器能够计算出一个可将一切东西整合到一起的执行路径。</p>
+
+<p>这些定义，就像一个一个方程。在左侧定义一个名字，在其之后安置一个或多个可以绑定变量的模式（见<a href="http://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Evaluation,_Part_1">后文</a>）。这些方程在行为上就像普通的代数方程那样：你总是可以在程序代码中使用右侧来替换左侧，所得结果也必定相同。这种性质被称为“引用透明”，它使得 Haskell 程序的构思要较其他语言更为容易。</p>
+
+<p>我们该如何定义 <code>main</code> 动作？我们知道它肯定是一个 <code>IO ()</code> 动作，其任务是读取命令行参数，然后作一些输出，最终生成 <code>()</code> 类型的值。</p>
+
+<p>创建一个 IO 动作有两种方式：</p>
+
+<ol>
+<li>使用 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tMonad">return</a> 函数提升一个普通的值使之进入 IO 单子；</li>
+<li>组合两个既有的 IO 动作。</li>
+</ol>
+
+
+<p>因为我们想做的是两件事，所以我们采取第二种方式。内建的动作 <a href="http://www.haskell.org/ghc/docs/6.4/html/libraries/base/System.Environment.html#v%3AgetArgs">getArgs</a> 可以读取命令行参数并将其作为字符串列表的形式进行传送。内建函数 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vputStrLn">putStrLn</a> 可以接受一个字符串然后创建一个可以将字串写入控制台的动作。</p>
+
+<p>为了组合这些动作，我们可以使用 do-块，它是由 do 之后的第一个非空字符起始的一系列行构成。每一行的形式不外乎：</p>
+
+<ol>
+<li>name &lt;- action1</li>
+<li>action2</li>
+</ol>
+
+
+<p>第一种形式是将 action1 的结果绑定到 name 以待后面的动作使用。例如，如果 action1 的类型是 <code>IO [String]</code>（一个返回字符串列表的 IO 动作，像 getArgs），那么在后续的所有动作中 name 会一直以绑定到字符串列表的形式被“绑定”操作符 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tMonad"><code>&gt;&gt;=</code></a> 传递。对于不同的单子，绑定操作符有着不同的语意：对于 IO 单子，它会顺序执行动作，以实现动作结果所产生的任何对外部的负面影响。因为这种组合机制依赖于所使用的特定的单子，你无法将不同单子类型的动作在一个只能被 IO 单子使用的 do-块中混杂使用。</p>
+
+<p>当然，这些动作本身可以调用函数或者复杂的表达式并传出它们的结果（通过 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tMonad">return</a> 函数或者其他可以最终可以做此事的函数）。本章的示例中，我们首先提取参数值列表的第一个元素（索引号为 0 的元素，即 <code>args !! 0</code>），然后使用 <code>("Hello, " ++)</code> 将其连接到字符串 &#8220;Hello, &#8221; 的尾部，最终将字串传送给 <code>putStrLn</code>，由它创建一个新的 IO 动作。这个过程就构成了 do-块的语句序列。</p>
+
+<p>所创建的那个新的动作，它组合了上述的动作序列，被存储为 <code>IO ()</code> 类型的标识符 <code>main</code>。Haskell 系统会注意到这个定义，并执行其中的动作。</p>
+
+<p>在 Haskell 中，字符串是字符列表，因此你可以使用任何一个列表函数或操作符来处理它们。下面是一些标准操作符及其优先级的表格。</p>
+
+<div style="width:100%; text-align:center">
+<table style="margin:0px auto;">
+<tbody><tr>
+<th style="text-align:center;">操作符</th>
+<th style="text-align:center;">优先级</th>
+<th style="text-align:center;">结合性</th>
+<th style="text-align:center;">含义</th>
+</tr>
+<tr>
+<td>.</td>
+<td>9</td>
+<td>右</td>
+<td>函数复合</td>
+</tr>
+<tr>
+<td>!!</td>
+<td>9</td>
+<td>左</td>
+<td>列表索引</td>
+</tr>
+<tr>
+<td>^, ^^, **</td>
+<td>8</td>
+<td>右</td>
+<td>幂运算（整型、分数与浮点数）</td>
+</tr>
+<tr>
+<td>*, /</td>
+<td>7</td>
+<td>左</td>
+<td>乘、除</td>
+</tr>
+<tr>
+<td>+, -</td>
+<td>6</td>
+<td>左</td>
+<td>加、减</td>
+</tr>
+<tr>
+<td>:</td>
+<td>5</td>
+<td>右</td>
+<td>列表构造符</td>
+</tr>
+<tr>
+<td>++</td>
+<td>5</td>
+<td>右</td>
+<td>列表联接符</td>
+</tr>
+<tr>
+<td>`elem`, `notElem`</td>
+<td>4</td>
+<td>左</td>
+<td>列表成员关系</td>
+</tr>
+<tr>
+<td>==, /=, &lt;, &lt;=, &gt;=,&gt;</td>
+<td>4</td>
+<td>左</td>
+<td>等于、不等于及其他相关操作符</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>3</td>
+<td>右</td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td>||</td>
+<td>2</td>
+<td>右</td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td>&gt;&gt;, &gt;&gt;=</td>
+<td>1</td>
+<td>左</td>
+<td>单子绑定（构建管道将值传递给后面的函数）</td>
+</tr>
+<tr>
+<td>=&lt;&lt;</td>
+<td>1</td>
+<td>右</td>
+<td>逆向的单子绑定（与上面那个相同，只不过参数值的位置相反）</td>
+</tr>
+<tr>
+<td>$</td>
+<td>0</td>
+<td>右</td>
+<td>中缀函数应用符（与 &#8220;f x&#8221; 相同，但是将结合方向由左向转化为右向）</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>要编译与运行本章的这个程序，可以像下面这样做：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -o hello_you --make listing2.hs
+</span><span class='line'><span class="nv">$ </span>./hello_you Jonathan
+</span><span class='line'>Hello, Jonathan
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>-o</code> 选项设定了所要创建的可执行文件名，然后再指定所要编译的 Haskell 源文件名。</p>
+
+<h3>习题</h3>
+
+<ol>
+<li>修改本章的程序，使之可从命令行读取 2 个参数值，然后将它们打印出来。</li>
+<li>修改本章的程序，使之可以对 2 个参数值完成一个简单的代数运算并打印出结果。你可以使用 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vread"><code>read</code></a> 函数将字符串转化为数字，使用 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tShow"><code>show</code></a> 函数将数字转回字符串。可以再试试其他运算。</li>
+<li><code>getLine</code> 是一个 IO 动作，它从控制台读取一行文本然后将其作为字符串返回。修改本章的程序，使之可以提示需要一个名字，读取这个名字，然后打印出来，而不是通过命令行参数值的形式输入。</li>
+</ol>
+
+
+<h2>二、 解析</h2>
+
+<h3>写一个简单的解析器</h3>
+
+<p>现在，让我们尝试写一个简单的解析器。这需要用到 <a href="http://www.cs.uu.nl/~daan/download/parsec/parsec.html">Parsec</a> 库。</p>
+
+<p>首先在 import 部分添加这样一行代码：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">import</span> <span class="nn">Text.ParserCombinators.Parsec</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">spaces</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这行代码使得我们可以使用 Parsec 库中除 spaces 函数之外的函数。之所以要排除 spaces 函数，是因为它的名字会与我们之后定义的一个函数的名字冲突。</p>
+
+<p>下面我们要定义一个能够识别 Scheme 标识符中一些符号的解析器：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">symbol</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">Char</span>
+</span><span class='line'><span class="nf">symbol</span> <span class="ow">=</span> <span class="n">oneOf</span> <span class="s">&quot;!#$%&amp;|*+-/:&lt;=&gt;?@^_~&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这又是一个单子的示例：此时所隐藏的“附加信息”是输入流的当前位置、回溯记录、第一个集合及后续集合等等。Parsec 可以为我们管理这一切。我们只需使用 Parsec 库函数 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#oneOf"><code>oneOf</code></a>，它可以从传入的任意字符串中识别出单个字符。Parsec 提供了许多预定义的解析器：例如作为库函数的 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#letter"><code>letter</code></a> 与 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#digit"><code>digit</code></a>。你将会看到这些基本的解析器可以组合为更为复杂的解析器。</p>
+
+<p>可以定义一个函数来调用我们的解析器并处理任何可能的错误：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">readExpr</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">symbol</span> <span class="s">&quot;lisp&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+</span><span class='line'>    <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+</span><span class='line'>    <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="s">&quot;Found value&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看一下类型签名，<code>readExpr</code> 是一个从字符串到字符串的函数。我们将参数命名为 <code>input</code>，然后将其传递于上面定义的 <code>symbol</code> 解析器直至 Parsec 函数 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#parse"><code>parse</code></a>。<code>parse</code> 的第二个参数是 <code>input</code> 字符串的名字，主要是在错误信息中使用。</p>
+
+<p><code>parse</code> 能够返回解析所得的值或者错误，因此我们需要处理出错的情况。根据 Haskell 惯例，Parsec 返回一个 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tEither"><code>Either</code></a> 类型的值，它使用 <code>Left</code> 构造子表示一个错误，使用 <code>Right</code> 值构造子表示一个正常的值。</p>
+
+<p>我们使用 <code>case...of</code> 结构来匹配 <code>parse</code> 的结果，从而形成可选分支。如果我们得到的是一个 <code>Left</code> 值（错误），那么就将值（错误信息）绑定到 <code>err</code>，然后返回“No match”以及错误信息字符串。如果我们得到的是 <code>Right</code> 值，我们就值绑定到 <code>val</code> 并且忽略它，然后返回字符串“Found value”。</p>
+
+<p><code>case...of</code> 结构是模式匹配的一个例子，更多的细节在<a href="http://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours/Evaluation,_Part_1#Beginnings_of_an_evaluator:_Primitives">后文</a>讲述。</p>
+
+<p>最后，我们需要修改 <code>main</code> 函数使之调用 <code>readExpr</code> 并打印出结果：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
+</span><span class='line'>          <span class="n">putStrLn</span> <span class="p">(</span><span class="n">readExpr</span> <span class="p">(</span><span class="n">args</span> <span class="o">!!</span> <span class="mi">0</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了编译和运行这个程序，你需要在命令行中设定 <code>-package parsec</code> 选项，否则会出现连接错误。例如：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o simple_parser listing3.1.hs
+</span><span class='line'><span class="o">[</span>1 of 1<span class="o">]</span> Compiling Main             <span class="o">(</span> sec.hs, sec.o <span class="o">)</span>
+</span><span class='line'>Linking simple_parser ...
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="err">$</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser a
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 1<span class="o">)</span>:
+</span><span class='line'>unexpected <span class="s2">&quot;a&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>空白符</h3>
+
+<p>下面将会对我们的解析器进行一些改进，使之能逐步识别出更为复杂的表达式。当前的解析器在遇到所解析符号之前有空白符的时候会挂掉：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;    %&quot;</span>
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 1<span class="o">)</span>:
+</span><span class='line'>unexpected <span class="s2">&quot; &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们要解决这个问题，即忽略空白符。</p>
+
+<p>首先，定义一个能识别任意数量空白字符的解析器。顺便说一下，这就是为什么我们在导入 Parsec 模块时使用 <code>hiding (spaces)</code> 从句的原因：该库中已经有了一个叫做 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#spaces"><code>spaces</code></a> 的函数，但是它不能满足我们的需求（实际上库中有个叫做 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#lexeme"><code>lexeme</code></a> 的解析器可以满足我们的要求，但是出于教学的目的，我们不打算使用它）。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">spaces</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">spaces</span> <span class="ow">=</span> <span class="n">skipMany1</span> <span class="n">space</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就像函数可以作为参数传递给函数一样，动作也可以这样。这里我们向 Parser 动作 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#skipMany1"><code>skipMany1</code></a> 传递了 Parser 动作 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#space"><code>space</code></a>，这样便可得到一个可以识别一个或多个空格的解析器。</p>
+
+<p>现在，我们的解析函数需要修改一下，让它用上这个新的解析器，改动如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="p">(</span><span class="n">spaces</span> <span class="o">&gt;&gt;</span> <span class="n">symbol</span><span class="p">)</span> <span class="s">&quot;lisp&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+</span><span class='line'>  <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+</span><span class='line'>  <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="s">&quot;Found value&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在上一章已经接触过了绑定操作符 <code>&gt;&gt;</code>，它是用于在幕后组合 do-块语句的。在这里，我们显式的应用它来组合空白符解析器 <code>spaces</code> 与符号解析器 <code>symbol</code>。不过 Parser 单子的绑定与 IO 单子的绑定是截然不同的。在 Parser 单子中，绑定的含义是“尝试匹配第一个解析器，然后对余下的输入信息尝试匹配第二个解析器，如果两个都失败的话，那就失败”。不同的单子的绑定机制通常也是显著不同的；绑定的意图就是提供一种结构化计算的通用方式，因此需要有一种海纳百川以适应不同计算类型的气度。通过阅读有关单子方面的文档便可以知道它究竟做了什么（译者注：推荐阅读“<a href="http://ghacker.org/blog/2012/04/13/monads-for-the-curious-porgrammer/">单子求索</a>”）。</p>
+
+<p>编译并运行现在的代码。注意因为我们基于 <code>skipMany1</code> 定义的 <code>spaces</code>，它不能想之前那样处理单个字符的输入，现在你需要在待解析的符号之前冠以一些空白字符作为输入。下面看一下它是否有用：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o simple_parser listing3.2.hs
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;    %&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser %
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 1<span class="o">)</span>:
+</span><span class='line'>unexpected <span class="s2">&quot;%&quot;</span>
+</span><span class='line'>expecting space
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;    abc&quot;</span>
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 5<span class="o">)</span>:
+</span><span class='line'>unexpected <span class="s2">&quot;a&quot;</span>
+</span><span class='line'>expecting space
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>返回值</h3>
+
+<p>到现在为止，解析器还没有做太多的事情——它只能告诉我们一个给定的字符串能不能被识别。我们想让它做更多的事情：将输入转换为一种易于遍历的数据结构。本节，我们要学习如何定义一种数据类型以及如何修改解析器使之返回这种数据类型。</p>
+
+<p>首先，我们需要定义一种可以承载任何 Lisp 值的数据类型：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">LispVal</span> <span class="ow">=</span> <span class="kt">Atom</span> <span class="kt">String</span>
+</span><span class='line'>             <span class="o">|</span> <span class="kt">List</span> <span class="p">[</span><span class="kt">LispVal</span><span class="p">]</span>
+</span><span class='line'>             <span class="o">|</span> <span class="kt">DottedList</span> <span class="p">[</span><span class="kt">LispVal</span><span class="p">]</span> <span class="kt">LispVal</span>
+</span><span class='line'>             <span class="o">|</span> <span class="kt">Number</span> <span class="kt">Integer</span>
+</span><span class='line'>             <span class="o">|</span> <span class="kt">String</span> <span class="kt">String</span>
+</span><span class='line'>             <span class="o">|</span> <span class="kt">Bool</span> <span class="kt">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是代数数据类型的一个示例：它定义了一个 LispVal 类型的变量所能承载的所有可能值的集合。每个选项（称为构造子，以 <code>|</code> 隔开）包含了一个值构造子的名称及其所能承纳的数据类型。在这个例子中，一个 LispVal 值可能是：</p>
+
+<ol>
+<li>原子：承纳一个命名该原子的字符串</li>
+<li>列表：承纳其他 LispVal 值的列表（Haskell 的列表采用中括号表示）；也被称为正规列表（Proper List）</li>
+<li>加点列表：表示一种 Scheme 格式 `(a b . c)；也被称为非正规列表（Improper List）。它承纳一组元素但是不包含最后那个元素，然后将最后那个元素作为另外一个域</li>
+<li>数字：承纳 Haskell 的整型数</li>
+<li>字符串：承纳 Haskell 的字符串</li>
+<li>布尔值：承纳 Haskell 的布尔值</li>
+</ol>
+
+
+<p>构造子与类型处于不同的命名空间，因此你可以让构造子与类型命同名，但它们必须以大写字母开头。</p>
+
+<p>下一步，我们添加一些解析函数来创建这些类型的值。先构造字符串，即构造以双引号囊括的非引号字符的值：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseString</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseString</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">char</span> <span class="sc">&#39;&quot;&#39;</span>
+</span><span class='line'>                 <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">many</span> <span class="p">(</span><span class="n">noneOf</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>                 <span class="n">char</span> <span class="sc">&#39;&quot;&#39;</span>
+</span><span class='line'>                 <span class="n">return</span> <span class="o">$</span> <span class="kt">String</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在我们又用回了 do-块来替代 <code>&gt;&gt;</code> 操作符。这是因为我们要检出解析后的值（由 <code>many (noneOf "\"")</code> 返回的值）并进行处理，同时交叉着其他的解析操作。通常情况下，如果动作没有返回值的话，就使用 <code>&gt;&gt;</code>，如果要将一个动作的返回值立刻传递给下一个动作，那么就使用 <code>&gt;&gt;=</code>，而 do-块可以包容这两种情况。</p>
+
+<p>一旦完成了字符串的解析并且通过 <code>many</code> 获得了 Haskell 字符串，便可使用 <code>String</code> 构造子（来自 LispVal 数据类型）将其转化为 LispVal 值。代数数据类型的每一个构造子都像一个函数，可以将参数值转化为代数数据类型的值。它也可作为模式匹配表达式的左部来使用，前面已经有了这样的例子，即使用 <code>Either</code> 数据类型的两个构造子来匹配解析器的结果。</p>
+
+<p>最后我们应用内建函数 [<code>return</code>] 将 LispVal 值提升为 Parser 单子。要记住，do-块的每一行必须有相同的类型，但是 <code>String</code> 构造子返回结果的类型是 LispVal。<code>return</code> 可以将 LispVal 类型的值封装到 Parsec 动作中。这样，<code>parseString</code> 这个动作的类型就是 <code>Parser LispVal</code>。</p>
+
+<p><code>$</code> 操作符是中缀函数应用。实际上 <code>return $ String x</code> 与 <code>return (String x)</code> 是等价的。由于 <code>$</code> 是向右结合的，因此它的作用就是消除一些括号。既然 <code>$</code> 是一个操作符，你可以像使用函数那样的来使用它：将它作为参数值传递、部分应用等，在这方面 <code>$</code> 的功能类似 Lisp 函数 <a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.4"><code>apply</code></a>。</p>
+
+<p>下面来看 Scheme 变量的解析。一个<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-5.html#%_sec_2.1">原子</a> 是由一个字母或符号及其后尾随的任意数量的字符、数字或符号构成：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseAtom</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseAtom</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">first</span> <span class="ow">&lt;-</span> <span class="n">letter</span> <span class="o">&lt;|&gt;</span> <span class="n">symbol</span>
+</span><span class='line'>               <span class="n">rest</span> <span class="ow">&lt;-</span> <span class="n">many</span> <span class="p">(</span><span class="n">letter</span> <span class="o">&lt;|&gt;</span> <span class="n">digit</span> <span class="o">&lt;|&gt;</span> <span class="n">symbol</span><span class="p">)</span>
+</span><span class='line'>               <span class="kr">let</span> <span class="n">atom</span> <span class="ow">=</span> <span class="n">first</span><span class="kt">:</span><span class="n">rest</span>
+</span><span class='line'>               <span class="n">return</span> <span class="o">$</span> <span class="kr">case</span> <span class="n">atom</span> <span class="kr">of</span> <span class="s">&quot;#t&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span> <span class="kt">True</span>
+</span><span class='line'>                                     <span class="s">&quot;#f&quot;</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span> <span class="kt">False</span>
+</span><span class='line'>                                     <span class="kr">_</span>    <span class="ow">-&gt;</span> <span class="kt">Atom</span> <span class="n">atom</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里我们又引入了一个 Parsec 的组合子——选择操作符 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#or"><code>&lt;|&gt;</code></a>。它会尝试执行第一个解析器，如果失败的话，那么就执行第二个；如果两个解析器都成功的话，它便返回解析器所返回的值。第一个解析器必须要在消耗任何输入之前失败：后面我们可以看到如何实现回溯。</p>
+
+<p>一旦读取了第一个字符以及原子的剩余字符，我们必须将它们归并到一起。<code>let</code> 语句定义了一个新变量 <code>atom</code>。我们使用列表构造子 <code>:</code> 来实现 <code>atom</code> 的定义。不使用 <code>:</code> 的话，也可以使用连接操作符 <code>++</code>，例如 <code>[first] ++ rest</code>；因为 <code>first</code> 是字符，因此我们需要使用方括号将它转化为单元素列表。</p>
+
+<p>然后我们使用 case 表达式根据用于表示 true 与 false 的字符串来判定是哪一种 LispVal 值被创建和返回。下划线 <code>_</code> 候选项是为了可阅读性而搞的小把戏：case 块会持续行进至 <code>_</code> 的情况（或者所有情况都会失败，最终导致 case 表达式失败），可以将 <code>_</code> 想像成通配符。因此如果代码落入 <code>_</code> 的情况，它总是会被匹配并且返回 <code>atom</code> 值。</p>
+
+<p>最后，我们再创建一个数字的解析器。它展示了处理单子值的又一种方式：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseNumber</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseNumber</span> <span class="ow">=</span> <span class="n">liftM</span> <span class="p">(</span><span class="kt">Number</span> <span class="o">.</span> <span class="n">read</span><span class="p">)</span> <span class="o">$</span> <span class="n">many1</span> <span class="n">digit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上述代码应该从右向左阅读，因为 <code>$</code> 与函数复合符 <code>.</code> 都是向右结合的。Parsec 的组合子 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#many1"><code>many1</code></a> 可以应用其参数值（解析器）一次或更多次，因此它可以匹配一个或多个数字。我们是想基于匹配所得字符串创建一个 LispVal 的数值，但是在类型上有些不匹配，需要使用内建函数 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vread"><code>read</code></a> 将字符串转换为数字，然后将数字传递给 <code>Number</code> 构造子从而得到 LispVal 值。函数复合操作符 <code>.</code> 可以创建一个函数，该函数会应用右侧的参数值，然后将结果传递给左侧的参数值，因此我们使用它来组合两个函数。</p>
+
+<p>不幸的是，<code>many1 digit</code> 的结果的类型实际上是 <code>Parser String</code>，因此我们组合的 <code>Number . read</code> 无法操作它。我们需要一个可以操作隐含于单子内部的值但所得结果是 <code>Parser LispVal</code> 类型的值的方法。标准函数 <code>liftM</code> 就是为了这个问题应运而生，因此我们对 <code>Number . read</code> 函数应用 <code>liftM</code>，然后将其作用于我们的解析器。</p>
+
+<p>为了使用 <code>liftM</code>，我们需要导入单子模块：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">import</span> <span class="nn">Control.Monad</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重度依赖函数复合、函数应用以及将函数传递给函数，这种编程风格在 Haskell 代码中非常普遍。将一些中间步骤分散为函数然后以各种方式组合起来，这种方式经常可以让你以单行代码就可以表示非常复杂的运算。不幸的是，这意味着你经常要从右向左阅读代码，并且保持对类型的警醒。这种编程风格会贯穿这份指南的剩余部分，因此希望你能很好的适应它。</p>
+
+<p>现在让我们创建一个可以接受字符串、数字或原子的解析器：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseExpr</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseExpr</span> <span class="ow">=</span> <span class="n">parseAtom</span>
+</span><span class='line'>            <span class="o">&lt;|&gt;</span> <span class="n">parseString</span>
+</span><span class='line'>            <span class="o">&lt;|&gt;</span> <span class="n">parseNumber</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后修改 <code>readExpr</code> 使之可以调用我们新的解析器：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">readExpr</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">parseExpr</span> <span class="s">&quot;lisp&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+</span><span class='line'>  <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+</span><span class='line'>  <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="s">&quot;Found value&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编译并运行现在的代码，你会注意到它可以接受任意数字、字符串或符号，其他格式的字符串则不行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o simple_parser listing3.3.hs
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;\&quot;this is a string\&quot;&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser 25
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser symbol
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="o">(</span>symbol<span class="o">)</span>
+</span><span class='line'>-bash: syntax error near unexpected token <span class="sb">`</span>symbol<span class="err">&#39;</span>
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(symbol)&quot;</span>
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 1<span class="o">)</span>:
+</span><span class='line'>unexpected <span class="s2">&quot;(&quot;</span>
+</span><span class='line'>expecting letter, <span class="s2">&quot;\&quot;&quot;</span> or digit
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>练习</h3>
+
+<ol>
+<li>重写 <code>parseNumber</code>，使用
+
+<ul>
+<li>do-表达式</li>
+<li><code>&gt;&gt;=</code> 的显式序列</li>
+</ul>
+</li>
+<li>我们所用的字串不是 <a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.3.5">R<sup>5</sup>RS</a> 兼容的，因为它们不支持字符串内部引号的逃逸。你可能想使用一个新的解析器来替换 <code>noneOf "\""</code>，这个新解析器可以接受非引号字符或者反斜线后跟随引号的转义</li>
+<li>修改上一个练习的答案，使之支持 <code>\n, \r, \t, \\</code> 以及其他所需的转义符</li>
+<li>修改 <code>parseNumber</code> 使之支持<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.2.4">Scheme 不同基底标准</a>。<a href="http://www.haskell.org/onlinereport/numeric.html#sect14"><code>readOct</code> 与 <code>readHex</code></a> 可能对你会有帮助</li>
+<li>为 LispVal 添加一个字符构造子，并创建一个 R<sup>5</sup>RS 定义的<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.3.4">字符字面值</a>的解析器</li>
+<li>为 LispVal 添加一个浮点数构造子，使之支持 R<sup>5</sup>RS 的<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.2.4">十进制</a>语法。Haskell 函数 <a href="http://www.haskell.org/onlinereport/numeric.html#sect14">readFloat</a> 可能会有用</li>
+<li>添加支持 Scheme 数字类型的数据类型和解析器的<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.2.1">完全数字塔</a>。Haskell 有许多内建类型可以表示其中的大部分类型；请检视 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tNum">Prelude</a>。对于那些无法直接表示的类型，你可以定义一些复合类型来表示，例如将有理数表示为分子和分母，将复数表示为实部和虚部</li>
+</ol>
+
+
+<h3>递归解析器：添加列表、加点列表以及引用数据的支持</h3>
+
+<p>下面，我们要为我们的 Scheme 解释器添加更多的解析器动作。首先从使得 Lisp 扬名的括号形式的列表开始：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseList</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseList</span> <span class="ow">=</span> <span class="n">liftM</span> <span class="kt">List</span> <span class="o">$</span> <span class="n">sepBy</span> <span class="n">parseExpr</span> <span class="n">spaces</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个解析器很像 <code>parseNumber</code>。首先解析一串由空白符分割的表达式（<code>sepBy parseExpr spaces</code>），然后在 Parse 单子中应用 List 构造子产生 LispVal 值。要注意我们将 <code>parseExpr</code> 传递给了 <a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#sepBy"><code>sepBy</code></a>，尽管它是我们自己写的一个动作。</p>
+
+<p>加点列表解析器实现起来要更复杂一些，但是所用的概念则是我们已经熟悉的：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseDottedList</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseDottedList</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="n">head</span> <span class="ow">&lt;-</span> <span class="n">endBy</span> <span class="n">parseExpr</span> <span class="n">spaces</span>
+</span><span class='line'>    <span class="n">tail</span> <span class="ow">&lt;-</span> <span class="n">char</span> <span class="sc">&#39;.&#39;</span> <span class="o">&gt;&gt;</span> <span class="n">spaces</span> <span class="o">&gt;&gt;</span> <span class="n">parseExpr</span>
+</span><span class='line'>    <span class="n">return</span> <span class="o">$</span> <span class="kt">DottedList</span> <span class="n">head</span> <span class="n">tail</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意我们是如何使用 <code>&gt;&gt;</code> 将一系列的解析器动作串行起来然后在 do-块的右侧使用这一序列的。表达式 <code>char '.' &gt;&gt; spaces</code> 返回一个 <code>Parser ()</code> 类型的值，然后它与 <code>parseExpr</code> 组合了起来从而得到 <code>Parser LispVal</code> 值，这正是 do-块所期望的类型。</p>
+
+<p>接着，我们再增加 Scheme 的单引号语法糖的支持：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseQuoted</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseQuoted</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>   <span class="n">char</span> <span class="sc">&#39;</span><span class="se">\&#39;</span><span class="sc">&#39;</span>
+</span><span class='line'>   <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">parseExpr</span>
+</span><span class='line'>   <span class="n">return</span> <span class="o">$</span> <span class="kt">List</span> <span class="p">[</span><span class="kt">Atom</span> <span class="s">&quot;quote&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码中大部分都是我们熟悉的东西：它读取一个单引号字符，再读取一个表达式并将其绑定到 <code>x</code>，然后返回 <code>(quote x)</code>，这是 Scheme 的概念。<code>Atom</code> 构造子就像普通的函数那样：传递给它一个字符串，它便返回一个 LispVal 值。对于 LispVal 值你可以像处理其他常见的值那样做什么都可以，例如将其置于一个列表中。</p>
+
+<p>最后，我们要修改一下 <code>parseExpr</code> 使之包含新的解析器：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">parseExpr</span> <span class="ow">::</span> <span class="kt">Parser</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">parseExpr</span> <span class="ow">=</span> <span class="n">parseAtom</span>
+</span><span class='line'>        <span class="o">&lt;|&gt;</span> <span class="n">parseString</span>
+</span><span class='line'>        <span class="o">&lt;|&gt;</span> <span class="n">parseNumber</span>
+</span><span class='line'>        <span class="o">&lt;|&gt;</span> <span class="n">parseQuoted</span>
+</span><span class='line'>        <span class="o">&lt;|&gt;</span> <span class="kr">do</span> <span class="n">char</span> <span class="sc">&#39;(&#39;</span>
+</span><span class='line'>               <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">try</span> <span class="n">parseList</span> <span class="o">&lt;|&gt;</span> <span class="n">parseDottedList</span>
+</span><span class='line'>               <span class="n">char</span> <span class="sc">&#39;)&#39;</span>
+</span><span class='line'>               <span class="n">return</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这份代码演示了 Parsec 的最后一个特性：回溯。<code>parseList</code> 与 <code>parseDottedList</code> 能够识别出相同的字符串直至 <code>.</code> 符号；这就打破了候选需求不会在失败前消耗输入这个要求。<a href="http://www.cs.uu.nl/%7Edaan/download/parsec/parsec.html#try"><code>try</code></a> 组合子能够尝试运行指定的解析器，如果失败的话，它会回退到之前的状态。这样的话在尝试一个分支时时不会影响到另外待尝试的分支。</p>
+
+<p>编译并运行目前的代码：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o simple_parser listing3.4.hs
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(a test)&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(a (nested) test)&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(a (dotted . list) test)&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(a &#39;(quoted (dotted . list)) test)&quot;</span>
+</span><span class='line'>Found value
+</span><span class='line'><span class="nv">$ </span>./simple_parser <span class="s2">&quot;(a &#39;(imbalanced parens)&quot;</span>
+</span><span class='line'>No match: <span class="s2">&quot;lisp&quot;</span> <span class="o">(</span>line 1, column 24<span class="o">)</span>:
+</span><span class='line'>unexpected end of input
+</span><span class='line'>expecting space or <span class="s2">&quot;)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，通过在我们的解析器中对 <code>parseExpr</code> 的引用，我们可以任意深度的嵌套它们。因而我们只需要使用很少的定义便可得到完备的 Lisp 阅读器，这就是递归的力量。</p>
+
+<h3>练习</h3>
+
+<ol>
+<li>添加<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-7.html#%_sec_4.2.6">反引号</a>语法糖的支持：Scheme 标准描述了它应该被展开为什么（quasiquote/unquote）</li>
+<li>添加<a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.3.6">向量</a>的支持。Haskell 对此有点技穷了：GHC 提供了<a href="http://www.haskell.org/ghc/docs/latest/html/libraries/array-0.3.0.0/Data-Array.html">数组</a>类型，但是很难使用。严格的说，向量应该需要常量时间的索引与更新，但是破坏性的更新在纯函数式语言中是难以实现的。对于这个问题的解决，你可能在读完本指南后文的集合那一节之后会有更好的主意。</li>
+<li>不使用 <code>try</code> 组合子，只使用解析器自身来完成同样的任务。你应当写一个可以匹配一个表达式串列的解析器，再写一个能匹配空值或一个点（Dot）与单个表达式所构成的表达式。将这两个解析器的返回值组合起来使之成为列表或加点列表，这个留给读者作为练习：你可能需要另行构造一个辅助函数。</li>
+</ol>
+
+
+<h2>三、 求值（1）</h2>
+
+<h3>起步</h3>
+
+<p>现在我们已经能够打印出我们是否能够识别出给定的程序片段。下面我们就向一个可用的 Scheme 解释器迈出第一步：为程序片段赋值。我们将从非常基本的东西开始，但是不一会你就可以发展到处理实际的计算。</p>
+
+<p>我们这样开始：告诉 Haskell 如何打印各种可能的 <code>LispVal</code> 值的字符串表示：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">showVal</span> <span class="ow">::</span> <span class="kt">LispVal</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">String</span> <span class="n">contents</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">++</span> <span class="n">contents</span> <span class="o">++</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">Atom</span> <span class="n">name</span><span class="p">)</span> <span class="ow">=</span> <span class="n">name</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">Number</span> <span class="n">contents</span><span class="p">)</span> <span class="ow">=</span> <span class="n">show</span> <span class="n">contents</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">Bool</span> <span class="kt">True</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;#t&quot;</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">Bool</span> <span class="kt">False</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;#f&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是我们第一次对模式匹配进行郑重介绍。模式匹配是代数数据类型的一种解构方式，即基于代数数据类型的构造子遴选代码从句，然后将成员绑定到变量。任何构造子都可以出现在模式中；如果一个模式的标签与值的标签相同，并且所有的子模式也都与相应的成员匹配，那么这个模式便匹配到一个值。模式匹配可以任意深度的嵌套，匹配处理是由内而外、由左向右的次序进行的。函数定义中的从句会以字面的次序，逐个进行模式匹配。如果这让你糊涂，下面在深入探索求值器的时候，你会看到一些深层嵌套的模式示例。</p>
+
+<p>现在，你只需要知道上述函数定义中每个从句都会匹配 <code>LispVal</code> 的一个构造子，右侧则描述了如何处理构造子的值。</p>
+
+<p><code>List</code> 与 <code>DottedList</code> 相似，但是我们需要定义一个辅助函数 <code>unwordsList</code> 将列表所包含的列表转化为字符串。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">List</span> <span class="n">contents</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;(&quot;</span> <span class="o">++</span> <span class="n">unwordsList</span> <span class="n">contents</span> <span class="o">++</span> <span class="s">&quot;)&quot;</span>
+</span><span class='line'><span class="nf">showVal</span> <span class="p">(</span><span class="kt">DottedList</span> <span class="n">head</span> <span class="n">tail</span><span class="p">)</span> <span class="ow">=</span> <span class="s">&quot;(&quot;</span> <span class="o">++</span> <span class="n">unwordsList</span> <span class="n">head</span> <span class="o">++</span> <span class="s">&quot; . &quot;</span> <span class="o">++</span> <span class="n">showVal</span> <span class="n">tail</span> <span class="o">++</span> <span class="s">&quot;)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>unwordsList</code> 行为上像 Haskell 标准库中的 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vunwords"><code>unwords</code></a> 函数，将一列单词以空格间隔连在一起。因为我们所处理的是一列 <code>LispVal</code> 值而不是单词，因此我们定义了这个函数。它首先将 <code>LispVal</code> 值转化为字符串表示然后再对它们应用 <code>unwords</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">unwordsList</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">LispVal</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+</span><span class='line'><span class="nf">unwordsList</span> <span class="ow">=</span> <span class="n">unwords</span> <span class="o">.</span> <span class="n">map</span> <span class="n">showVal</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>unwordsList</code> 的定义不包含任何参数。这是“点自由（point-free）”风格的一个例子：纯粹以函数的部分应用与函数组合的方式来定义函数，不考虑具体的值（点）。这里我们使用了两个内建的函数的组合来定义 <code>unwordsList</code>。首先，我们对 <code>ShowVal</code> 部分应用了 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vmap"><code>map</code></a> 函数，这样便可创建一个函数，它可以接受一个 <code>LispVal</code> 值列表并各个值的字符串表示所构成的列表。Haskell 函数都是丘奇化（Curried）了的：这意味着一个接受两个参数值的函数，例如 <code>map</code>，实际上是一个返回“接受一个参数值的函数”的函数。这个新函数可以与其他函数组合，留待后续应用。在本例中，我们是将 <code>map showVal</code> 这一部分应用所得到的函数与 <code>unwords</code> 复合，前者用于生成一个字符串列表，后者则使用空格作为间隔将列表元素合并起来。</p>
+
+<p>上面我们使用了 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#tShow"><code>show</code></a> 函数。这个是 Haskell 标准库中的函数，它可以帮助你将任何类型的值转化为字符串，前提是这种类型必须是 <code>Show</code> 类的实例。我们希望 <code>LispVal</code> 具备这一能力，因此就需要将它变为 <code>Show</code> 类的一员，即定义它的 <code>show</code> 方法为 <code>showVal</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">LispVal</span> <span class="kr">where</span> <span class="n">show</span> <span class="ow">=</span> <span class="n">showVal</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有关类型类完整的介绍超出了本指南的范畴；你可以在<a href="http://www.haskell.org/tutorial/classes.html">其他指南</a>与 <a href="http://www.haskell.org/onlinereport/decls.html#sect4.3">Haskell 98 标准</a>中获得更多的信息。</p>
+
+<p>现在，我们尝试修改 <code>readExpr</code> 函数，让它返回所解析的值的字符串表示，而不是那个“Found value”：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">parseExpr</span> <span class="s">&quot;lisp&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+</span><span class='line'>    <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="s">&quot;No match: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+</span><span class='line'>    <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="s">&quot;Found &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">val</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后编译并运行：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o parser listing4.1.hs
+</span><span class='line'><span class="nv">$ </span>./parser <span class="s2">&quot;(1 2 2)&quot;</span>
+</span><span class='line'>Found <span class="o">(</span>1 2 2<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>./parser <span class="s2">&quot;&#39;(1 3 (\&quot;this\&quot; \&quot;one\&quot;))&quot;</span>
+</span><span class='line'>Found <span class="o">(</span>quote <span class="o">(</span>1 3 <span class="o">(</span><span class="s2">&quot;this&quot;</span> <span class="s2">&quot;one&quot;</span><span class="o">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>开始写求值器：初级</h3>
+
+<p>现在开始写一个求值器。求值器的作用是将“代码”数据类型映射为“数据”数据类型，即求值结果。在 Lisp 语言中，数据类型对于“代码”与“数据”而言都是相同的，因此我们的求值器将会返回一个 <code>LispVal</code> 值。其他语言通常会有各种语法形式的更为复杂的代码结构。</p>
+
+<p>对数字、字符串和带引号的列表进行求值相当的简单：返回数据本身。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">eval</span> <span class="ow">::</span> <span class="kt">LispVal</span> <span class="ow">-&gt;</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">eval</span> <span class="n">val</span><span class="o">@</span><span class="p">(</span><span class="kt">String</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">val</span>
+</span><span class='line'><span class="nf">eval</span> <span class="n">val</span><span class="o">@</span><span class="p">(</span><span class="kt">Number</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">val</span>
+</span><span class='line'><span class="nf">eval</span> <span class="n">val</span><span class="o">@</span><span class="p">(</span><span class="kt">Bool</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">val</span>
+</span><span class='line'><span class="nf">eval</span> <span class="p">(</span><span class="kt">List</span> <span class="p">[</span><span class="kt">Atom</span> <span class="s">&quot;quote&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">])</span> <span class="ow">=</span> <span class="n">val</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里引入了新的模式形式。<code>val@(String _)</code> 匹配包含字符串的 <code>LispVal</code> 值，然后将整个 <code>LispVal</code> 绑定到 <code>val</code>，而不理睬 <code>String</code> 构造子的内容。这样所得的结果其类型为 <code>LispVal</code>，而不是字符串类型。下划线符号表示“不要结果，只要过程”的变量，它可以匹配任何值但是不进行绑定。下划线符号可用于任何模式中，但是它与 <code>@-模式</code> 结合起来的时候最有用，另外就是在构造子测试中可以使用它来忽略那些不关心的成员。</p>
+
+<p>上面代码中最后那行就是我们前面提到的嵌套模式。<code>List</code> 所包含的数据类型是 <code>[LispVal]</code>，即 <code>LispVal</code> 值的列表，我们使用只有两个元素的列表来匹配它。这个只具有两个元素的列表，第一个元素是 &#8220;quote&#8221; 符号，第二个元素可以是任何东西并且也是我们要得到的结果。</p>
+
+<p>我们可以将 <code>eval</code> 集成到现有代码中。首先需要将 <code>readExpr</code> 改回来，使之返回表达式而非表达式的字符串表示：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">readExpr</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">readExpr</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">parse</span> <span class="n">parseExpr</span> <span class="s">&quot;lisp&quot;</span> <span class="n">input</span> <span class="kr">of</span>
+</span><span class='line'>    <span class="kt">Left</span> <span class="n">err</span> <span class="ow">-&gt;</span> <span class="kt">String</span> <span class="o">$</span> <span class="s">&quot;No match: &quot;</span> <span class="o">++</span> <span class="n">show</span> <span class="n">err</span>
+</span><span class='line'>    <span class="kt">Right</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="n">val</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后修改 <code>main</code> 函数，让它可以读取表达式，求值，转化为字符串并显示。我们已经知道 <code>&gt;&gt;=</code> 单子序列操作符和函数复合符是怎么回事了，现在可以让它们拥有用武之地：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="n">getArgs</span> <span class="o">&gt;&gt;=</span> <span class="n">print</span> <span class="o">.</span> <span class="n">eval</span> <span class="o">.</span> <span class="n">readExpr</span> <span class="o">.</span> <span class="n">head</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里，我们取得 <code>getArgs</code> 动作的结果，然后将其传递至下面四个函数的组合：</p>
+
+<ol>
+<li>取得第一个值（head）</li>
+<li>解析这个值（readExpr）</li>
+<li>对解析结果求值（eval)</li>
+<li>将所求的值转化为字符串表示并显示（print）</li>
+</ol>
+
+
+<p>以常规的方式编译并运行现在的代码：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ghc -package parsec -o <span class="nb">eval </span>listing4.2.hs
+</span><span class='line'><span class="nv">$ </span>./eval <span class="s2">&quot;&#39;atom&quot;</span>
+</span><span class='line'>atom
+</span><span class='line'><span class="nv">$ </span>./eval 2
+</span><span class='line'>2
+</span><span class='line'><span class="nv">$ </span>./eval <span class="s2">&quot;\&quot;a string\&quot;&quot;</span>
+</span><span class='line'><span class="s2">&quot;a string&quot;</span>
+</span><span class='line'><span class="nv">$ </span>./eval <span class="s2">&quot;(+ 2 2)&quot;</span>
+</span><span class='line'>
+</span><span class='line'>Fail: listing6.hs:83: Non-exhaustive patterns in <span class="k">function </span><span class="nb">eval</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在这个程序还不能做多么有用的事（连 <code>(+ 2 2)</code> 都不支持），但是基本的骨架已经建好了。下面我们要为其添加更多的函数，使它更有用。</p>
+
+<h3>增加基本的原语</h3>
+
+<p>下面，要改进我们的 Scheme 解释器，让它成为一个简单的计算器。虽然它依然无法成为“编程语言”，但是距离目标更近了一步。</p>
+
+<p>我们从增加 <code>eval</code> 的一个子句使之支持函数应用的处理开始。记住，一个函数定义的所有子句必须放在一起，并且它们会被按照代码中的次序求值，因此在前面已经出现的 <code>eval</code> 子句之后添加：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">eval</span> <span class="p">(</span><span class="kt">List</span> <span class="p">(</span><span class="kt">Atom</span> <span class="n">func</span> <span class="kt">:</span> <span class="n">args</span><span class="p">))</span> <span class="ow">=</span> <span class="n">apply</span> <span class="n">func</span> <span class="o">$</span> <span class="n">map</span> <span class="n">eval</span> <span class="n">args</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这又是一个嵌套模式的示例，但是这次我们是根据 cons 操作符“:”进行匹配，而不是一个字面上的列表。在 Haskell 中，列表实际上只是一个语法糖，它包藏了 cons 操作符的应用链以及空列表：<code>[1, 2, 3, 4] = 1:(2:(3:(4:[])))</code>。通过这种根据 cons 自身而不是字面列表的模式匹配，我们可以宣称“请给我列表剩余的部分”，而不是“请给我列表的第二个元素”。例如，如果我们将 <code>(+ 2 2)</code> 传递给 <code>eval</code>，那么 <code>func</code> 便会被绑定到 <code>+</code>，<code>args</code> 则会被绑定到 <code>[Number 2, NUmber 2]</code>。</p>
+
+<p>上面的 <code>eval</code> 子句剩下的部分由两个函数构成，其中有一个还未被定义。我们必须要递归的对每个参数值进行求值，因此我们将 <code>eval</code> 映射至 <code>args</code> 所包含的每个值。这样做可以让我们很方便的写出诸如 <code>(+ 2 (- 3 1) (* 5 4))</code> 这样的表达式。然后我们获取参数值求值后所得结果的列表，将它与起初的函数 <code>func</code> 传递于 <code>apply</code>：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">apply</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">LispVal</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">LispVal</span>
+</span><span class='line'><span class="nf">apply</span> <span class="n">func</span> <span class="n">args</span> <span class="ow">=</span> <span class="n">maybe</span> <span class="p">(</span><span class="kt">Bool</span> <span class="kt">False</span><span class="p">)</span> <span class="p">(</span><span class="o">$</span> <span class="n">args</span><span class="p">)</span> <span class="o">$</span> <span class="n">lookup</span> <span class="n">func</span> <span class="n">primitives</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>内建函数 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vlookup"><code>lookup</code></a> 可在一个二元组构成的列表中查询一个键对应的值。不过，在列表所包含的二元组中如果未包含所查询的键，<code>lookup</code> 便会失败。为了表示这一现象，<code>lookup</code> 会返回内建类型 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$tMaybe"><code>Maybe</code></a> 的实例。我们使用函数 <a href="http://www.haskell.org/onlinereport/standard-prelude.html#$vmaybe"><code>maybe</code></a> 对 <code>lookup</code> 成功或失败的情况分别进行处理。如果 <code>lookup</code> 一无所获，那么便返回一个 <code>Bool False</code> 值，即 <code>#f</code>（后文我们会使用更为稳健的错误处理机制）。如果 <code>lookup</code> 获得了键对应的值（它是一个函数），我们便使用 <code>($ args)</code> 将其应用于参数值。</p>
+
+<p>下面，定义我们支持的原语列表：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">primitives</span> <span class="ow">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="p">[</span><span class="kt">LispVal</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">LispVal</span><span class="p">)]</span>
+</span><span class='line'><span class="nf">primitives</span> <span class="ow">=</span> <span class="p">[(</span><span class="s">&quot;+&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="p">(</span><span class="o">+</span><span class="p">)),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="p">(</span><span class="o">-</span><span class="p">)),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="p">(</span><span class="o">*</span><span class="p">)),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="n">div</span><span class="p">),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;mod&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="n">mod</span><span class="p">),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;quotient&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="n">quot</span><span class="p">),</span>
+</span><span class='line'>              <span class="p">(</span><span class="s">&quot;remainder&quot;</span><span class="p">,</span> <span class="n">numericBinop</span> <span class="n">rem</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+    <div class="meta">
+        <div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-01T17:04:00+08:00" pubdate data-updated="true">May 1<span>st</span>, 2012</time></div>
+        <div class="tags">
+
+<div class="cat">
+  
+    <a class='category' href='/blog/categories/haskell/'>Haskell</a>, <a class='category' href='/blog/categories/scheme/'>Scheme</a>
+  
+</div>
+
+</div>
+        
+    </div>
+</article>
+
+</div>
+	<footer class="inner">Copyright &copy; 2012 劈柴者</footer>
+	<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script src="/javascripts/slash.js"></script>
+
+
+
+
+</body>
+</html>
