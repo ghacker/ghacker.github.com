@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Haskell | 劈柴者]]></title>
   <link href="http://ghacker.github.com/blog/categories/haskell/atom.xml" rel="self"/>
   <link href="http://ghacker.github.com/"/>
-  <updated>2012-07-08T11:10:22+08:00</updated>
+  <updated>2012-07-08T19:12:23+08:00</updated>
   <id>http://ghacker.github.com/</id>
   <author>
     <name><![CDATA[或与非]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Haskell 文学编程系统中的 tangle 工具的实现]]></title>
+    <link href="http://ghacker.github.com/blog/2012/07/08/htangle/"/>
+    <updated>2012-07-08T19:09:00+08:00</updated>
+    <id>http://ghacker.github.com/blog/2012/07/08/htangle</id>
+    <content type="html"><![CDATA[<p>Haskell 语言自身便是一种半文学编程系统，因为它的函数可以按照人类的思维逻辑进行组织，但是它缺乏 Knuth WEB 中\quotation{节}的灵活性与可读性。Haskell 文学编程系统这个项目（下面简称 HWEB）的主要目的就是基于 Haskell 与 \CONTEXT\ MkIV 排版语言为 Haskell 实现一个完备的文学编程系统。</p>
+
+<!--more-->
+
+
+<p>HWEB 程序的描述语言类似于非常轻量级的标记语言——Markdown，但是在普通的文本区域皆可自由的插入 \CONTEXT 命令。</p>
+
+<h2>HWEB 程序的\quotation{节}</h2>
+
+<p>\quotation{节}可将一个 HWEB 程序划分为树形结构。利用这一结构，我们就可以像撰写一份文档那样来写一个 HWEB 程序。</p>
+
+<p>每一节都是以一个或多个连续的 \type{#} 符号开始，节的层次性体现于 \type{#} 符号的个数。例如 \type{###} 表示第三层的节。</p>
+
+<p>注意，每一节的结束就是下一节的开始。</p>
+
+<p>尾随 \type{#} 符号序列的是节的标题，其终止符是换行符。节的标题可以为空，这样在产生的 \CONTEXT\ 文档中就会得到只有序号但是没有标题的小节。</p>
+
+<p>每一节均由两个部分构成，自然语言部分与 Haskell 语言部分，它们各自的职能是：</p>
+
+<ul>
+<li>自然语言部分：使用人类语言来描述这一节所实现的程序功能或程序逻辑；</li>
+<li>Haskell 语言部分：具体的 Haskell 代码片段或者 HWEB 宏。</li>
+</ul>
+
+
+<p>这两个部分中的任一个皆可为空，但是如果它们都存在，那么自然语言部分必须要先于 Haskell 语言部分。</p>
+
+<h2>htangle 的自举实现过程</h2>
+
+<p>为了保证 htangle 的实现过程是一个自举过程，也就是说用 HWEB 程序来写 htangle 自身。这个过程的需要一个起源。</p>
+
+<p>在起源阶段，虽然 htangle 工具的实现是基于 HWEB 代码实现，但是 Haskell 代码需要人工从 HWEB 代码中抽取，只有如此方可得到第一个可用的 htangle。</p>
+
+<p>一旦有了第一个 htangle，那么它便是当前可用的 htangle。它的下一个版本可以通过 HWEB 实现，然后利用既有的 htangle 工具并配合少量的人工从 HWEB 代码中抽取得到新版本 htangle 的 Haskell 代码，对其编译后即可得到一个新的 htangle 工具。</p>
+
+<p>这个迭代过程，便能够使得 htangle 一直处于进化状态，等到我厌倦之时，也就是这个迭代过程收敛之时。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[48 小时写一个属于你的 Scheme 解释器]]></title>
