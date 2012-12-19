@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cikada | 劈柴者]]></title>
+  <link href="http://ghacker.github.com/blog/categories/cikada/atom.xml" rel="self"/>
+  <link href="http://ghacker.github.com/"/>
+  <updated>2012-12-19T15:00:30+08:00</updated>
+  <id>http://ghacker.github.com/</id>
+  <author>
+    <name><![CDATA[或与非]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Clutter 外传]]></title>
+    <link href="http://ghacker.github.com/blog/2012/12/19/cluster-story/"/>
+    <updated>2012-12-19T14:58:00+08:00</updated>
+    <id>http://ghacker.github.com/blog/2012/12/19/cluster-story</id>
+    <content type="html"><![CDATA[<p>我希望在读完这个故事之后，你可以获得与 Clutter 相处的基本能力。事实上不读这个故事，你也可以从 Clutter 参考手册中获得这种能力。不过学习终归是件痛并快乐的事，这个故事或许可以减轻一些痛苦。至少我在写这个故事的过程中是非常快乐的。</p>
+
+<!--more-->
+
+
+<h2>前言</h2>
+
+<p>我是一名 GNU/Linux 用户，现在正使用 GNOME 3 作为桌面。在使用 GNU/Linux 这近七年的时间里，我没有找到比 TeX 更好的排版软件，所以我经常使用 TeX 来制作一些演示文档。</p>
+
+<p>有了 TeX 的帮助，制作精美的演示文档便不是什么问题。在报告时可以使用 Evince 这样的阅读器将 PDF 页面全屏显示。</p>
+
+<p>温饱问题一旦得以解决，我便又开始不满足。我需要一款比 Evince 更好的放映工具。</p>
+
+<p>在我的系统环境中，目前最强大的 PDF 演示文档放映工具或许是 Impressive。与 Evince 的全屏模式相比，Impressive 拥有华丽的页面切换动画效果，具备诸如聚光灯、页面缩放、局部高亮等交互功能，并且具备时间进度提示。它可以满足我对 PDF 演示文档放映的全部需求。</p>
+
+<p>如果你只是想寻找一个好的工具来放映 PDF 演示文档，那么这个故事无须开始，到此便可结束。</p>
+
+<p>如果你想学习 Clutter，可以继续读下去。因为我要讲的这个故事，就是借助 Clutter 同它的几个朋友的力量，创造一个 Impressive。</p>
+
+<p>我需要一些理由来说明我不是使用 Clutter 去发明一个已经存在的轮子。因为我们都有一个好习惯，哪怕是在做练习题，我们也不希望将精力放在那些已经有了答案的问题上。</p>
+
+<p>好在 Impressive 并非完美，我们可以从下面这几个方面来非难它：</p>
+
+<ol>
+<li>好久没有更新了，并且对 Python 3 的支持不明确；</li>
+<li>依赖太多的东西，例如 Python、PyOpenGL、PyGame、PIL、Xpdf 等；</li>
+<li>方格形式的概览视图既不能直观反映当前页对应的进度，也不能反映文档内容的逻辑结构。</li>
+</ol>
+
+
+<p>这样，我们便师出有名了，因为我们的目标是要实现一个更为强大的“Impressive”。</p>
+
+<p>我希望在读完这个故事之后，你可以获得与 Clutter 相处的基本能力。事实上不读这个故事，你也可以从 Clutter 参考手册中获得这种能力。不过学习终归是件痛并快乐的事，这个故事或许可以减轻一些痛苦。至少我在写这个故事的过程中是非常快乐的。</p>
+
+<h2>与 Clutter 的初次见面</h2>
+
+<p>在这个五月的上午，我从 GNOME 市的新城区出发，去郊区拜访 Clutter 姑娘。这是一次非常的唐突的拜访。我与她素不相识，此前只是从我的朋友 GObject 那里得知了她的一些信息。她是一位优秀的设计师，擅长在三维空间中的平面设计，GObject 曾经帮她制造过一个工具箱。</p>
+
+<p>我将自己想创造一个比 Impressive 更强大的 PDF 演示文档放映工具的事情告诉了 GObject。他非常肯定的说：“Clutter 会帮你完成这个工具”。</p>
+
+<p>快到中午的时候，我站在了 Clutter 的庭院之外。在这个充满田野气息的村庄里，她的庭院种植的花木错落有致，非常优美。GObject 说 Clutter 已经在这里生活了 7 年，曾利用她的工具箱帮助 GNOME 市设计了整座城市的建筑外观。</p>
+
+<p>门扉是紧掩着的。GObject 告诉我 Clutter 一直恪守 C 世界的礼节，也非常的谨慎。只有通过下面的 C 代码所产生的程序，才可以打开庭院之门，并且得到她的最基本的信任与相见。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>hello.c </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">clutter</span><span class="o">/</span><span class="n">clutter</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span>
+</span><span class='line'><span class="n">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">if</span> <span class="p">(</span><span class="n">clutter_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CLUTTER_INIT_SUCCESS</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>我将上面的代码置于一个 hello.c 文件，然后在 Bash 之中使用 gcc 对 hello.c 编译并运行：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gcc &lt;code&gt;pkg-config --cflags --libs clutter-1.0&lt;/code&gt; hello.c -o hello
+</span><span class='line'><span class="nv">$ </span>./hello
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>程序成功的运行了起来。这时，庭院的门缓缓的被打开了，从中走出一位身形清瘦，长发垂肩的女孩，容貌虽然并不出众，但是一双眼睛非常的清澈灵动。</p>
+
+<p>她就是 Clutter？</p>
+
+<p>看着这样一位如此年轻的姑娘，我不禁疑惑 GObject 所说的有关她的那些故事是否真实。</p>
+
+<h2>舞台</h2>
+
+<p>窗外，郁郁葱葱的海棠树与怒放的月季花沐浴在午后的阳光中，正快乐的随风摇摆。</p>
+
+<p>“我们首先应该为幻灯片创造一个舞台，它的背景应该是黑色的，像夜空那样深邃。”在倾听了我想做的事情之后，Clutter 用这句话回答了她是否愿意帮助我。也许她的声音并不是非常动听，但此刻在我耳中却如天籁那般美妙。</p>
+
+<p>与她交谈了一个下午，我终于相信了 GObject 之前对她所作的评价，并且非常高兴这件事能得到她的帮助。</p>
+
+<p>“那么，这个背景该如何实现？”</p>
+
+<p>Clutter 没有直接回答我的问题，而是反问道：“你还记得开启这个庭院之门的那个程序吗？”</p>
+
+<p>这个我当然记得，只是不明白那个 <code>clutter_init</code> 函数的作用。</p>
+
+<p>Clutter 抬手拢了拢散额际的长发，微微一笑：“也许你可能会感觉很奇怪，为什么我会毫不犹豫的帮助你。因为我曾经作过承诺：只要有人启用了 <code>clutter_init</code> 函数并且能够得到 <code>CLUTTER_INIT_SUCCESS</code> 值，这意味着他对我的信任，也意味着我也有能力也愿意尽力帮助他。此外，<code>clutter_init</code> 还会帮我做一些准备工作。”</p>
+
+<p>哦……怪不得 GObject 叮嘱我一定要使用这个程序来打开 Clutter 的庭院之门。</p>
+
+<p>“别发呆了，我们来创造这个黑色的舞台吧！”Clutter 打开她的计算机，灵巧的手指在键盘上像蝴蝶般的翻飞，将之前我写的那个打开庭院之门的程序快速修改为下面这个样子：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>blank-stage.c </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">clutter</span><span class="o">/</span><span class="n">clutter</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">define</span> <span class="n">CKD_STAGE_WIDTH</span>  <span class="mi">320</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">define</span> <span class="n">CKD_STAGE_HEIGHT</span> <span class="mi">240</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span>
+</span><span class='line'><span class="n">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">if</span> <span class="p">(</span><span class="n">clutter_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CLUTTER_INIT_SUCCESS</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ClutterColor</span> <span class="n">stage_color</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xff</span> <span class="p">};</span>
+</span><span class='line'>    <span class="n">ClutterActor</span> <span class="o">*</span><span class="n">stage</span> <span class="o">=</span> <span class="n">clutter_stage_new</span> <span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">clutter_stage_set_minimum_size</span> <span class="p">(</span><span class="n">CLUTTER_STAGE</span><span class="p">(</span><span class="n">stage</span><span class="p">),</span>
+</span><span class='line'>                                    <span class="n">CKD_STAGE_WIDTH</span><span class="p">,</span>
+</span><span class='line'>                                    <span class="n">CKD_STAGE_HEIGHT</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">clutter_stage_set_user_resizable</span> <span class="p">(</span><span class="n">CLUTTER_STAGE</span><span class="p">(</span><span class="n">stage</span><span class="p">),</span> <span class="n">TRUE</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">clutter_actor_set_background_color</span> <span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">stage_color</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">clutter_actor_show_all</span> <span class="p">(</span><span class="n">stage</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="s">&quot;destroy&quot;</span><span class="p">,</span> <span class="n">G_CALLBACK</span><span class="p">(</span><span class="n">clutter_main_quit</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">clutter_main</span> <span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>然后她将新的代码置于 black-stage.c 文件，编译并运行这个程序：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gcc &lt;code&gt;pkg-config --cflags --libs clutter-1.0&lt;/code&gt; black-stage.c -o black-stage
+</span><span class='line'><span class="nv">$ </span>./blank-stage
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>此时，一个黑色屏幕的窗口跃然出现在我眼前。</p>
+
+<p style="text-align:center;"><img src="/images/posts/clutter-story-01.png" width="400"></p>
+
+
+<p>整个过程，一气呵成。我站在她身旁，不由的转眼凝视了她一会。Clutter 被我看得有些不好意思，抿了一下嘴唇，含羞的笑了一下，轻声说道：“拜托啊，不要个人崇拜。这些是我做设计时经常要用到的一份很基本的模板代码，输的次数多了，自然就熟练了起来。哦，对了，你能看懂它们吗？”</p>
+
+<p>我点了点头。在她刚才输入代码的过程中，从那些函数的名字，我已将代码的含义猜出了几分。</p>
+
+<p>“<code>clutter_stage_new</code> 创建的 stage 指针所指的对象就是刚才所生成的那个窗口吧？然后 <code>clutter_stage_set_minimum_size</code> 函数设定了这个窗口的最小宽度和高度；<code>clutter_stage_set_user_resizable</code> 函数则让这个窗口具备可由用户调整宽度和高度的能力；<code>clutter_actor_set_background_color</code> 函数将窗口的背景色设成了黑色；<code>clutter_actor_show_all</code> 函数可以将这个窗口在屏幕上显示出来。那个 <code>g_signal_connect</code> 函数是将窗口的关闭信号连接到 <code>clutter_main_quit</code> 函数，这样当这个窗口接受到关闭信号时，<code>clutter_main_quit</code> 便会被执行，从而使得窗口被关闭。<code>clutter_main</code> 似乎是让程序进入一种循环状态，等待着响应用户输入的信号。”</p>
+
+<p>Clutter 赞许的看了我一眼，说：“你挺厉害的。”</p>
+
+<p>“以前看过 GTK+ 写的程序，感觉你所写的代码与他的风格差不多。”</p>
+
+<p>“咦，你认识 GTK+？”Clutter 略微有些惊讶。</p>
+
+<p>“是啊，他跟 GObject 是哥们。”</p>
+
+<p>“你还认识 GObject 啊！”</p>
+
+<p>“嗯，其实是 GObject 说你可以帮助我，所以我才来拜访你的。”</p>
+
+<p>Clutter 有点兴奋，从见面后我第一次看到她表露出活泼的神情。她笑着说道：“GTK+ 是我哥哥，GObject 是我的堂兄。那 GLib 你应该也认识吧，他与 GObject 很有交情。还有 Cairo 呢，他和我哥哥一起工作。”</p>
+
+<p>是的，这些家伙我都认识，六年多的交情了，但是他们以前却从未和我提起还有 Clutter 这样一位兰心慧质的小妹妹。</p>
+
+<p>Clutter 似乎从我的神情中看出了我的恼怒，赶忙解释道：“他们可能没有和你说起过我，主要是因为我喜欢安静的生活，所以很早以前我就搬到了这里居住。他们都知道我的脾性，所以也很少来这里打扰我的生活。”</p>
+
+<p>原来是这样。我看了看窗外的天色，已是黄昏时分。乡村的空气要比城里好很多，夕阳彤红的颜色美得令人心醉。</p>
+
+<p>我该告辞了，便站起身来准备作别。此时，Clutter 也站了起来，阳光穿过窗户投到她的脸庞，她也像天边的云霞那样的美丽了。</p>
+
+<p>“明天有时间的话，还是到这里来吧，我们可以一起实现一个装着幻灯片的盒子。”</p>
+
+<p>“好吧，那再见了！”</p>
+
+<p>当我回到家时，已值深夜。街边的夜市依然飘荡着人群的喧哗。在这个黑色的夜空中，眼前的景色就像是一部美丽的影片，我们都是沉浸于各自角色的演员，被冥冥中的力量主导着。</p>
+
+<p>正当我准备入睡时，突然收到了来自 Clutter 的一条短信：“舞台也是演员”。</p>
+
+<p>不是太明白她的意思，但大致可以想像得到是和白天她所写的那个程序有关。</p>
+
+<p>演员只是一种概念，是人们对这一类人的统称，它表现了所有的演员有共性之处。Clutter 似乎是为演员这个概念构建了一个 ClutterActor 类，用它表征全部的演员。如果舞台也是一个演员，那么代码中的 <code>stage</code> 所指向的数据应该是 ClutterActor 类的一个子类的实例。因为在面向对象程序设计方法中，只有一个类的子类才可以既能使用自身的方法，又可以使用父类的方法。</p>
+
+<p>想起了 GObject 曾经帮 Clutter 制造过一个工具箱。按照 GObject 一贯的风格，他所写的函数名通常是由项目名、类名与方法名这三个部分构成，各部分使用下划线隔开。按照这种风格解读的话，那么 <code>clutter_stage_new</code> 函数的意思应该是 Clutter 项目中的 Stage 类的 new 方法。因为 C 的世界没有命名空间，所以 GObject 习惯使用项目命作为类名的前缀，Clutter 项目的 Stage 类，冠以前缀的类名应该是 <code>ClutterStage</code>。</p>
+
+<p>如此说来，<code>stage</code> 所指向的数据真正的类型应该是 <code>ClutterStage</code>，而这个类型是 <code>ClutterActor</code> 的子类？为了验证这一猜想，我需要借助 GObject 曾经教过我的类型自省技术，因为 GObject 所参与的全部项目都会嵌入这种技术。这种技术使用起来很简单，格式为 <code>项目名_IS_类名 (待自省类型的对象)</code>，其中项目名与类型都是大写字符，因为 GObject 在实现类型自省时巧妙的利用了 C 世界最难驾驭的宏的力量，风格自然也沿袭了宏命名的习惯，以一堆大写字母来显示自己的力量。</p>
+
+<p>我打开笔记本，写了下面的代码：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>introspection.c </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">stdlib</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">clutter</span><span class="o">/</span><span class="n">clutter</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span>
+</span><span class='line'><span class="n">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">if</span> <span class="p">(</span><span class="n">clutter_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CLUTTER_INIT_SUCCESS</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ClutterActor</span> <span class="o">*</span><span class="n">stage</span> <span class="o">=</span> <span class="n">clutter_stage_new</span> <span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">CLUTTER_IS_STAGE</span> <span class="p">(</span><span class="n">stage</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">g_print</span> <span class="p">(</span><span class="s">&quot;stage 是 ClutterStage 对象！</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">CLUTTER_IS_ACTOR</span> <span class="p">(</span><span class="n">stage</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">g_print</span> <span class="p">(</span><span class="s">&quot;舞台也是演员！</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>编译并运行：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gcc &lt;code&gt;pkg-config --cflags --libs clutter-1.0&lt;/code&gt; introspection.c -o introspection
+</span><span class='line'><span class="nv">$ </span>./introspection
+</span><span class='line'>stage 是 ClutterStage 对象！
+</span><span class='line'>舞台也是演员！
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>果然是这样。不禁佩服 Clutter 对面向对象编程思想的领悟与应用。将舞台视为演员，概念上虽然有些牵强，但是对于一名优秀的导演而言，舞台应该是有生命的。在以此为类比模型的图形库的设计中，这样做可在很大程度提高代码的复用性。因为面向对象编程方法最基本的思想就是：类的抽象程度决定了代码复用程度。</p>
+
+<p>好了，Clutter 留给我的悬疑基本解决，现在我需要一些睡眠。</p>
+
+<h2>装着幻灯片的盒子</h2>
+
+<p>第二天，我很早便动身前往 Clutter 居住的村庄，希望能多一些时间了解她的工具箱。当我抵达她的庭院时，发现门是开着的，里面 Clutter 拎着喷壶正在为花草浇水。她的头发简单的挽成了发髻，洁白的脖颈渗着微微的汗水，脸庞红扑扑的，在上午明净的阳光与青翠欲滴的绿草从中，整个人儿像一朵杜鹃花。看见我走进来，她直起腰，用手背擦了擦额头，冲我笑了一下，说：“看到我昨晚给你发的短信了吗？”</p>
+
+<p>“看到了，ClutterStage 是 ClutterActor 的子类吗？”我一边说着，一边从她手中接过喷壶，替她浇着剩下的几株鸢尾。</p>
+
+<p>“看来你对 GObject 那一套有一定的了解。这样的话，今天我们应该能很顺利的构造出盒子了。我们开始吧！”她在自来水池边洗过了洗脸，并擦去了脖颈上的汗水，向屋内走去。我将喷壶放在水池边沿，也随着她走了进去。</p>
+]]></content>
+  </entry>
+  
+</feed>
