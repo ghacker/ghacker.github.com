@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>劈柴者</title>
+    <title>函子，施用函子与独异点 - 劈柴者</title>
     <meta name="author" content="或与非">
 
     
@@ -48,13 +48,9 @@
 
 </header>
 	
-	<div id="content" class="inner">
-
-
-    <article class="post">
-    <h1 class="title"><a href="/blog/2012/08/18/lyah-functors/">函子，施用函子与独异点</a></h1>
-    <div class="entry">
-        <p>Haskell 的纯函数、高阶函数、参数化代数数据类型以及类型类，这些要素的组合使得我们能够在更高的层面上实现多态，其他语言可能做不到这一点。我们没有必要从一个更大的类型层次来思考类型，只需要考虑类型的行为是什么，然后将它们与相应的类型类关联起来。一个 <code>Int</code> 类型的行为有多种表现，可以表现为相等的事物，可以表现为被排序的事物，可以表现为可枚举的事物，诸如此类。</p>
+	<div id="content" class="inner"><article class="post">
+    <h1 class="title">函子，施用函子与独异点</h1>
+    <div class="entry"><p>Haskell 的纯函数、高阶函数、参数化代数数据类型以及类型类，这些要素的组合使得我们能够在更高的层面上实现多态，其他语言可能做不到这一点。我们没有必要从一个更大的类型层次来思考类型，只需要考虑类型的行为是什么，然后将它们与相应的类型类关联起来。一个 <code>Int</code> 类型的行为有多种表现，可以表现为相等的事物，可以表现为被排序的事物，可以表现为可枚举的事物，诸如此类。</p>
 
 <p>类型类是开放的，这意味着我们可以定义自己的数据类型，思考它的行为表现，然后将它关联到那些定义了对应行为的类型类。基于这一特性，再加上 Haskell 强大的类型系统，该系统使得我们只需查看函数的类型签名即可很大程度的理解其功能，我们便可以定义一些具备广泛且抽象行为的类型类。在定义用于判定两个事物是否相等或者根据某种次序比较两个事物的操作符时，我们已经见识了类型类的这一用途。这些广泛且抽象的行为非常优美，但是我们不能将它们视为很特殊的事物，因为我们在生活中大部分时间里都要与它们相处。之前，我们见识过函子，它们基本上是可以被整体映射的事物，这正是类型类可以描述的一个有用并且相当优雅的例子。在这一章中，我们要近距离的看函子，然后再进一步了解施用函子，它是函子得到略微增强并且更有用的版本。我们还要了解一下独异点，它们有点像袜子。</p>
 
@@ -406,10 +402,7 @@
 <p>第一个方法是 <code>pure</code>，它的类型为 <code>pure :: a -&gt; fa</code>。<code>f</code> 在此扮演的角色是施用函子的实例。从类型签名可以看出，<code>pure</code> 接受一个任意类型的值并返回一个包含该值的施用函子。当我们说“包含该值”的时候，我们又一次使用了盒子的比喻。一种更好的理解方式是将 <code>pure</code> 视为接受一个值，然后将其置于某种默认的（或者纯的）上下文中——一个可以产生这个值的最小的上下文。</p>
 
 <p><code>&lt;*&gt;</code> 函数才是真正有趣的。它的类型签名是 <code>f (a -&gt; b) -&gt; f a -&gt; f b</code>。看到这个，你联想到什么了没？没错，那个 <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code>。可以将 <code>&lt;*&gt;</code> 视为某种程度上得到加强的 <code>fmap</code>，只不过后者接受的是函数和函子，而 <code>&lt;*&gt;</code> 接受的是两个函子——一个包含着函数，另一个包含着值——然后将函数映射到第二个函子的内部。</p>
-
-        
-        
-    </div>
+</div>
     <div class="meta">
         <div class="date">
 
@@ -437,63 +430,7 @@
     </div>
 </article>
 
-
-    <article class="post">
-    <h1 class="title"><a href="/blog/2012/04/13/monads-for-the-curious-porgrammer/">单子求索</a></h1>
-    <div class="entry">
-        <p>原文见 <a href="http://bartoszmilewski.com">Bartosz Milewski 的系列博文</a>。</p>
-
-<pre><code>如是我闻：
-
-单子空空，力量无限
-用之愈多，所得愈多
-谈之愈多，知之愈少
-
-           ——《单子之道》
-</code></pre>
-
-<p>这样说不知是否夸张，似乎每个懂得了单子的程序员都会写一篇关于它的文章（而且每一篇的开头都是：网络上已经有了许多单子指南，但是……）。原因是对于单子的理解像是一种灵魂感悟，你想与他人分享。</p>
-
-<p>人们对单子的认知如同盲人摸象。你会看到有的人将它描述为容器，有的人将它描述为动作。有的人认为它是用于封装副作用的，也有人将其视为范畴论中自函子的实例。</p>
-
-<p>很难说清楚单子是个什么东西，因为它与我们日常生活中的事物毫无关系。对于面向对象编程中的对象，即使婴儿都知道对象是什么（可以放进嘴里的东西），单子该如何具化？</p>
-
-
-        
-        <a href="/blog/2012/04/13/monads-for-the-curious-porgrammer/" class="more-link">Read on &rarr;</a>
-    </div>
-    <div class="meta">
-        <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-13T09:36:00+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2012</time></div>
-        <div class="tags">
-
-<div class="cat">
-  
-    <a class='category' href='/blog/categories/haskell/'>Haskell</a>, <a class='category' href='/blog/categories/单子/'>单子</a>, <a class='category' href='/blog/categories/技术/'>技术</a>
-  
 </div>
-
-</div>
-        
-    </div>
-</article>
-
-<nav id="pagenavi">
-    
-    
-    <a href="/blog/archives" class="center">Blog Archives</a>
-</nav></div>
 	<footer class="inner">Copyright &copy; 2012 劈柴者</footer>
 	<script src="/javascripts/jquery.fancybox.pack.js"></script>
 <script src="/javascripts/slash.js"></script>

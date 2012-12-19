@@ -1,60 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>劈柴者</title>
-    <meta name="author" content="或与非">
-
+  <title><![CDATA[Category: 函子 | 劈柴者]]></title>
+  <link href="http://ghacker.github.com/blog/categories/函子/atom.xml" rel="self"/>
+  <link href="http://ghacker.github.com/"/>
+  <updated>2012-12-19T14:58:17+08:00</updated>
+  <id>http://ghacker.github.com/</id>
+  <author>
+    <name><![CDATA[或与非]]></name>
     
-    <meta name="description" content="函子，施用函子与独异点 Haskell 的纯函数、高阶函数、参数化代数数据类型以及类型类，这些要素的组合使得我们能够在更高的层面上实现多态，其他语言可能做不到这一点。我们没有必要从一个更大的类型层次来思考类型，只需要考虑类型的行为是什么，然后将它们与相应的类型类关联起来。一个 Int &hellip;">
-    
-    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-    <link href="/atom.xml" rel="alternate" title="劈柴者" type="application/atom+xml">
-    <link rel="canonical" href="">
-    <link href="/favicon.png" rel="shortcut icon">
-    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    
-    
-
-</head>
-
-<body>
-	<header class="inner"><h1 class="left"><a href="/">劈柴者</a></h1>
-<nav class="menu left"><ul class="main">
-	<li><a href="/">笔记</a></li>
-	<li><a href="/blog/archives">归档</a></li>
-</ul>
-</nav>
-<div class="right">
-	<form class="search right" action="http://google.com/search" method="get">
-		<input class="left" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:ghacker.github.com">
-	</form>
-	<div class="social right">
-		
-		
-		
-		
-		
-		
-		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
-</div>
-
-</header>
-	
-	<div id="content" class="inner">
-
-
-    <article class="post">
-    <h1 class="title"><a href="/blog/2012/08/18/lyah-functors/">函子，施用函子与独异点</a></h1>
-    <div class="entry">
-        <p>Haskell 的纯函数、高阶函数、参数化代数数据类型以及类型类，这些要素的组合使得我们能够在更高的层面上实现多态，其他语言可能做不到这一点。我们没有必要从一个更大的类型层次来思考类型，只需要考虑类型的行为是什么，然后将它们与相应的类型类关联起来。一个 <code>Int</code> 类型的行为有多种表现，可以表现为相等的事物，可以表现为被排序的事物，可以表现为可枚举的事物，诸如此类。</p>
+  
+  <entry>
+    <title type="html"><![CDATA[函子，施用函子与独异点]]></title>
+    <link href="http://ghacker.github.com/blog/2012/08/18/lyah-functors/"/>
+    <updated>2012-08-18T08:48:00+08:00</updated>
+    <id>http://ghacker.github.com/blog/2012/08/18/lyah-functors</id>
+    <content type="html"><![CDATA[<p>Haskell 的纯函数、高阶函数、参数化代数数据类型以及类型类，这些要素的组合使得我们能够在更高的层面上实现多态，其他语言可能做不到这一点。我们没有必要从一个更大的类型层次来思考类型，只需要考虑类型的行为是什么，然后将它们与相应的类型类关联起来。一个 <code>Int</code> 类型的行为有多种表现，可以表现为相等的事物，可以表现为被排序的事物，可以表现为可枚举的事物，诸如此类。</p>
 
 <p>类型类是开放的，这意味着我们可以定义自己的数据类型，思考它的行为表现，然后将它关联到那些定义了对应行为的类型类。基于这一特性，再加上 Haskell 强大的类型系统，该系统使得我们只需查看函数的类型签名即可很大程度的理解其功能，我们便可以定义一些具备广泛且抽象行为的类型类。在定义用于判定两个事物是否相等或者根据某种次序比较两个事物的操作符时，我们已经见识了类型类的这一用途。这些广泛且抽象的行为非常优美，但是我们不能将它们视为很特殊的事物，因为我们在生活中大部分时间里都要与它们相处。之前，我们见识过函子，它们基本上是可以被整体映射的事物，这正是类型类可以描述的一个有用并且相当优雅的例子。在这一章中，我们要近距离的看函子，然后再进一步了解施用函子，它是函子得到略微增强并且更有用的版本。我们还要了解一下独异点，它们有点像袜子。</p>
 
@@ -74,42 +38,63 @@
 
 <p>现在我们来看 <code>IO</code> 是怎样成为函子的实例的。当我们使用 <code>fmap</code> 将一个函数作用于一个 I/O 动作时，我们希望能够得到一个做同样事情的的 I/O 动作，但是我们的函数应用到前者所得到的结果。</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">instance</span> <span class="kt">Functor</span> <span class="kt">IO</span> <span class="kr">where</span>
-</span><span class='line'>    <span class="n">fmap</span> <span class="n">f</span> <span class="n">action</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'>        <span class="n">result</span> <span class="ow">&lt;-</span> <span class="n">action</span>
-</span><span class='line'>        <span class="n">return</span> <span class="p">(</span><span class="n">f</span> <span class="n">result</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">instance</span> <span class="kt">Functor</span> <span class="kt">IO</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">fmap</span> <span class="n">f</span> <span class="n">action</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">action</span>
+</span><span class='line'>    <span class="n">return</span> <span class="p">(</span><span class="n">f</span> <span class="n">result</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>由于将某种东西映射到一个 I/O 动作所得的结果仍需一个 I/O 行为，所以我们马上使用 <code>do</code> 语法来粘连两个行为并生成一个新的行为。在 <code>fmap</code> 的实现中，我们制造了一个新的 I/O 行为，该行为会首先执行原始 I/O 行为并获得它的结果 <code>result</code>，然后 <code>return (f result)</code>。正如你所想的那样，<code>return</code> 是一个产生 I/O 行为的函数，而这个 I/O 行为仅仅是将某种东西作为它的结果。<code>do</code> 块所产生的行为总是会将最后一个行为所得的结果作为结果。这就是为什么我们使用 <code>return</code> 来生成一个什么也不做的 I/O 行为的原因，因为它只是将 <code>f result</code> 作为新的 I/O 行为的结果。</p>
 
 <p>我们可以玩耍一下 I/O 动作的 <code>fmap</code> 来获取一些直观感受。做起来相当简单，看下面的代码片段：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="ow">&lt;-</span> <span class="n">getLine</span>
-</span><span class='line'>          <span class="kr">let</span> <span class="n">line&#39;</span> <span class="ow">=</span> <span class="n">reverse</span> <span class="n">line</span>
-</span><span class='line'>          <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;You said &quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
-</span><span class='line'>          <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Yes, you really said&quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">getLine</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>      <span class="kr">let</span> <span class="n">line&#39;</span> <span class="ow">=</span> <span class="n">reverse</span> <span class="n">line</span>
+</span><span class='line'>      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;You said &quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
+</span><span class='line'>      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Yes, you really said&quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这个程序的用户会被提示输入一行文本，然后我们再将这行文本逆序返回给用户。使用 <code>fmap</code> 重写上述代码：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="ow">&lt;-</span> <span class="n">fmap</span> <span class="n">reverse</span> <span class="n">getLine</span>
-</span><span class='line'>          <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;You said &quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
-</span><span class='line'>          <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Yes, you really said&quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">fmap</span> <span class="n">reverse</span> <span class="n">getLine</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;You said &quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
+</span><span class='line'>      <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">&quot;Yes, you really said&quot;</span> <span class="o">++</span> <span class="n">line&#39;</span> <span class="o">++</span> <span class="s">&quot; backwards!&quot;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>就像我们可以将 <code>reverse</code> 通过 <code>fmap</code> 作用到 <code>Just "blah"</code> 而得到 <code>Just "halb"</code> 那样，我们通过 <code>fmap</code> 将 <code>reverse</code> 作用于 <code>getLine</code>。<code>getLine</code> 是一个类型为 <code>IO String</code> 的 I/O 动作，<code>fmap</code> 将 <code>reverse</code> 映射作用于它后会给予我们这样一个 I/O 行为：从现实世界获得一行文本，然后 <code>reverse</code> 作用于该文本。就像我们将一个函数作用于 <code>Maybe</code> 盒子内部所存储的东西一样，我们也可以将一个函数作用于 <code>IO</code> 盒子所存储的东西，区别只是 <code>IO</code> 盒子会与现实世界打交道。当我们使用 <code>&lt;-</code> 将 <code>fmap</code> 的结果绑定到一个名字，这个名字可以反映经过 <code>reverse</code> 处理后的结果。</p>
 
@@ -119,29 +104,33 @@
 
 <p>如果你发现自己曾经做过将一个 I/O 动作的结果绑定到一个名字，但是只是对其应用一个函数并且还需要其他处理，请考虑使用 <code>fmap</code>，因为它看起来更优雅。如果你想将多重变换应用于函子内部的数据，你可以在顶层声明你自己的函数，或者使用匿名函数，或者使用函数复合：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">import</span> <span class="nn">Data.Char</span>
-</span><span class='line'><span class="kr">import</span> <span class="nn">Data.List</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">import</span> <span class="nn">Data.Char</span><span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span><span class='line'><span class="kr">import</span> <span class="nn">Data.List</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="ow">&lt;-</span> <span class="n">fmap</span> <span class="p">(</span><span class="n">intersperse</span> <span class="sc">&#39;-&#39;</span> <span class="o">.</span> <span class="n">reverse</span> <span class="o">.</span> <span class="n">map</span> <span class="n">toUpper</span><span class="p">)</span> <span class="n">getLine</span>
-</span><span class='line'>          <span class="n">putStrLn</span> <span class="n">line</span>
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">line</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">fmap</span> <span class="p">(</span><span class="n">intersperse</span> <span class="sc">&#39;-&#39;</span> <span class="o">.</span> <span class="n">reverse</span> <span class="o">.</span> <span class="n">map</span> <span class="n">toUpper</span><span class="p">)</span> <span class="n">getLine</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>      <span class="n">putStrLn</span> <span class="n">line</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>runhaskell fmapping_io.hs
-</span><span class='line'>hello there
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>runhaskell fmapping_io.hs&lt;br/&gt;
+</span><span class='line'>hello there&lt;br/&gt;
 </span><span class='line'>E-R-E-H-T- -O-L-L-E-H
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>你可能知道了，<code>intersperse '-' . reverse . map toUpper</code> 是一个函数，它接受一个字符串，并将 <code>toUpper</code> 映射到它，对所得结果应用 <code>reverse</code>，再对所得结果应用 <code>intersperse '-'</code>。这个过程就像在写 <code>(\xs -&gt; intersperse '-' (reverse (map toUpper xs)))</code>，但是更为优雅。</p>
 
@@ -149,21 +138,19 @@
 
 <blockquote><p>我们通常将函数表示为像 <code>a -&gt; b</code> 这种接受任何东西并且返回任何东西的形式。<code>r -&gt; a</code> 也是同样的东西，区别只是我们用了不同的字母来表示类型变量。</p></blockquote>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>instance Functor ((->) r) where
-</span><span class='line'>  fmap f g = (\x -> f (g x))</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>  fmap f g = (\x -> f (g x))</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>如果语法许可，上述代码可写为：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>instance Functor (r ->) where
-</span><span class='line'>  fmap f g = (\x -> f (g x))</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>  fmap f g = (\x -> f (g x))</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>但是 Haskell 语法不允许这样，所以我们只能写成前者的形式。</p>
 
@@ -171,16 +158,15 @@
 
 <p>好的很。将一个函数作用于到一个函数，然后又产生一个函数，就像将一个函数作用于 <code>Maybe</code> 然后产生一个 <code>Maybe</code>，将一个函数作用于一个列表然后又产生一个列表那样。但是这个 <code>fmap :: (a -&gt; b) -&gt; (r -&gt; a) -&gt; (r -&gt; b)</code> 类型有什么意义？我们可以从中看到 <code>fmap</code> 获得一个从 <code>a</code> 到 <code>b</code> 的函数和一个从 <code>r</code> 到 <code>b</code> 的函数。这让你想到了什么吗？是的，函数复合！我们以管道的形式将 <code>r -&gt; a</code> 的输出作为 <code>a -&gt; b</code> 的输入，从而得到一个函数 <code>r -&gt; b</code>，这正是函数复合的本质。对于上面的函子实例可以写成下面这样：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>instance Functor (r ->) where
-</span><span class='line'>  fmap = (.)</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>  fmap = (.)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在 GHCI 中，通过 <code>:m + Control.Monad.Instance</code> 可以获得函数函子的既有定义，然后我们可以耍一耍作用于函数函子的映射。</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -191,17 +177,16 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (*3) (+100)  
-</span><span class='line'>fmap (*3) (+100) :: (Num a) => a -> a  
-</span><span class='line'>ghci> fmap (*3) (+100) 1  
-</span><span class='line'>303    
-</span><span class='line'>ghci> (*3) `fmap` (+100) $ 1  
-</span><span class='line'>303    
-</span><span class='line'>ghci> (*3) . (+100) $ 1    
-</span><span class='line'>303    
-</span><span class='line'>ghci> fmap (show . (*3)) (*100) 1  
-</span><span class='line'>"300"</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (&lt;em>3) (+100)&lt;br/>
+</span><span class='line'>fmap (&lt;/em>3) (+100) :: (Num a) => a -> a&lt;br/>
+</span><span class='line'>ghci> fmap (&lt;em>3) (+100) 1&lt;br/>
+</span><span class='line'>303&lt;br/>
+</span><span class='line'>ghci> (&lt;/em>3) &lt;code>fmap&lt;/code> (+100) $ 1&lt;br/>
+</span><span class='line'>303&lt;br/>
+</span><span class='line'>ghci> (&lt;em>3) . (+100) $ 1&lt;br/>
+</span><span class='line'>303&lt;br/>
+</span><span class='line'>ghci> fmap (show . (&lt;/em>3)) (*100) 1&lt;br/>
+</span><span class='line'>"300"&lt;br/></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>我们将 <code>fmap</code> 作为中缀函数那样来使用，这样它就类似 <code>.</code> 函数了。在我们输入的第二行文本，我们是将 <code>(* 3)</code> 作用于 <code>(+ 100)</code>，结果会生成一个函数，它会接受一个输入，然后调用 <code>(+ 100)</code> 函数作用于这个输入，然后对所得结果应用 <code>(* 3)</code>。我们是将 <code>1</code> 作为输入提供给 <code>fmap</code> 所产生的那个函数。</p>
 
@@ -213,16 +198,15 @@
 
 <p>同样的思路，若我们写道 <code>fmap :: (a -&gt; b) -&gt; (f a -&gt; f b)</code>，我们可能会认为 <code>fmap</code> 并不是接受一个函数、一个函子并返回一个函子的函数，而是认为它是接受一个函数然后返回一个新函数的函数。这种东西被称为“提升”一个函数。我们可以在 GHCI 中使用 <code>:t</code> 来耍一下这个东西：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (*2)  
-</span><span class='line'>fmap (*2) :: (Num a, Functor f) => f a -> f a  
-</span><span class='line'>ghci> :t fmap (replicate 3)  
-</span><span class='line'>fmap (replicate 3) :: (Functor f) => f a -> f [a]</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (&lt;em>2)&lt;br/>
+</span><span class='line'>fmap (&lt;/em>2) :: (Num a, Functor f) => f a -> f a&lt;br/>
+</span><span class='line'>ghci> :t fmap (replicate 3)&lt;br/>
+</span><span class='line'>fmap (replicate 3) :: (Functor f) => f a -> f [a]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>表达式 <code>fmap (*2)</code> 是一个接受一个跨数字的函子并返回一个跨数字的函子的函数，而这种函子可以是列表，可以是 <code>Maybe</code>，也可以是 <code>Either String</code> 等等。表达式 <code>fmap (replicate 3)</code> 可以接受一个跨任何类型的函子然后返回一个跨列表的函子，并且列表元素的类型是之前那个函子所跨的类型。</p>
 
@@ -232,7 +216,7 @@
 
 <p><code>fmap (replicate 3) :: (Functor f) =&gt; f a -&gt; f [a]</code> 这种类型意味着一个可以在任何函子层次上工作的函数。至于它如何工作，这依赖于你所用的函子。如果我们对一个列表应用 <code>fmap (replicate 3)</code>，那么列表类型的 <code>fmap</code> 实现即 <code>map</code>。如果我们对 <code>Maybe a</code> 应用 <code>fmap (replicate 3)</code>，那么 <code>replicate 3</code> 会被应用于 <code>Just</code> 内部的值，或者是应用于 <code>Nothing</code>，结果也是 <code>Nothing</code>。</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -243,17 +227,16 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap (replicate 3) [1,2,3,4]  
-</span><span class='line'>[[1,1,1],[2,2,2],[3,3,3],[4,4,4]]  
-</span><span class='line'>ghci> fmap (replicate 3) (Just 4)  
-</span><span class='line'>Just [4,4,4]  
-</span><span class='line'>ghci> fmap (replicate 3) (Right "blah")  
-</span><span class='line'>Right ["blah","blah","blah"]  
-</span><span class='line'>ghci> fmap (replicate 3) Nothing  
-</span><span class='line'>Nothing  
-</span><span class='line'>ghci> fmap (replicate 3) (Left "foo")  
-</span><span class='line'>Left "foo"</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap (replicate 3) [1,2,3,4]&lt;br/>
+</span><span class='line'>[[1,1,1],[2,2,2],[3,3,3],[4,4,4]]&lt;br/>
+</span><span class='line'>ghci> fmap (replicate 3) (Just 4)&lt;br/>
+</span><span class='line'>Just [4,4,4]&lt;br/>
+</span><span class='line'>ghci> fmap (replicate 3) (Right "blah")&lt;br/>
+</span><span class='line'>Right ["blah","blah","blah"]&lt;br/>
+</span><span class='line'>ghci> fmap (replicate 3) Nothing&lt;br/>
+</span><span class='line'>Nothing&lt;br/>
+</span><span class='line'>ghci> fmap (replicate 3) (Left "foo")&lt;br/>
+</span><span class='line'>Left "foo"</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>下面，我们来看函子法则。为了让某种东西称为函子，它必须要满足一些法则。所有的函子被期待具备函子特有的属性与行为。它们应该很好的与可被跨映射的事物相符合。对一个函子应用 <code>fmap</code> 应当能够跨这个函子映射一个函数，仅此而已。这种行为可以采用函子法则的形式进行描述。函子的实例应当遵循两个法则，但是 Haskell 对此没有强制性，你需要自行验证。</p>
 
@@ -265,14 +248,13 @@
 
 <p>我们来看一个反面的例子，即一个类型构造子表面上看起来像函子，但实际上它不是，因为它不满足那两条函子法则。看下面这个类型：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>data CMaybe a = CNothing | CJust Int a deriving (Show)</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>data CMaybe a = CNothing | CJust Int a deriving (Show)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这里的 C 表示 Counter，即“相反”的意思。这种数据类型像 <code>Maybe a</code>，只不过它的 <code>Just</code> 部分持有两个域，而不是一个。<code>CJust</code> 值构造子的第一个域是 <code>Int</code> 类型；第二个域是类型 <code>a</code>，它的类型与 <code>CMaybe</code> 所接受的类型参数相同。下面，我们耍一下对这个新的类型以获取一些直观感受。</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -283,58 +265,62 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> CNothing  
-</span><span class='line'>CNothing  
-</span><span class='line'>ghci> CJust 0 "haha"  
-</span><span class='line'>CJust 0 "haha"  
-</span><span class='line'>ghci> :t CNothing  
-</span><span class='line'>CNothing :: CMaybe a  
-</span><span class='line'>ghci> :t CJust 0 "haha"  
-</span><span class='line'>CJust 0 "haha" :: CMaybe [Char]  
-</span><span class='line'>ghci> CJust 100 [1,2,3]  
-</span><span class='line'>CJust 100 [1,2,3]</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> CNothing&lt;br/>
+</span><span class='line'>CNothing&lt;br/>
+</span><span class='line'>ghci> CJust 0 "haha"&lt;br/>
+</span><span class='line'>CJust 0 "haha"&lt;br/>
+</span><span class='line'>ghci> :t CNothing&lt;br/>
+</span><span class='line'>CNothing :: CMaybe a&lt;br/>
+</span><span class='line'>ghci> :t CJust 0 "haha"&lt;br/>
+</span><span class='line'>CJust 0 "haha" :: CMaybe [Char]&lt;br/>
+</span><span class='line'>ghci> CJust 100 [1,2,3]&lt;br/>
+</span><span class='line'>CJust 100 [1,2,3]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>下面，我们将 <code>CMaybe</code> 类型作为函子的实例，使得每次对其应用 <code>fmap</code> 时，函数会作用于 <code>CJust</code> 的第二个域，而第一个域会增 1。</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>instance Functor CMaybe where  
-</span><span class='line'>    fmap f CNothing = CNothing  
-</span><span class='line'>    fmap f (CJust counter x) = CJust (counter+1) (f x)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在可以耍一下了：</p>
-
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap (++"ha") (CJust 0 "ho")  
-</span><span class='line'>CJust 1 "hoha"  
-</span><span class='line'>ghci> fmap (++"he") (fmap (++"ha") (CJust 0 "ho"))  
-</span><span class='line'>CJust 2 "hohahe"  
-</span><span class='line'>ghci> fmap (++"blah") CNothing  
-</span><span class='line'>CNothing</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>instance Functor CMaybe where&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>fmap f CNothing = CNothing  
+</span><span class='line'>fmap f (CJust counter x) = CJust (counter+1) (f x)
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>现在可以耍一下了：</p>
 
-<p>这个函子的实例符合函子法则吗？我们只需要找到一个反例即可证明它不符合函子法则。</p>
-
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap id (CJust 0 "haha")  
-</span><span class='line'>CJust 1 "haha"  
-</span><span class='line'>ghci> id (CJust 0 "haha")  
-</span><span class='line'>CJust 0 "haha"</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap (++"ha") (CJust 0 "ho")&lt;br/>
+</span><span class='line'>CJust 1 "hoha"&lt;br/>
+</span><span class='line'>ghci> fmap (++"he") (fmap (++"ha") (CJust 0 "ho"))&lt;br/>
+</span><span class='line'>CJust 2 "hohahe"&lt;br/>
+</span><span class='line'>ghci> fmap (++"blah") CNothing&lt;br/>
+</span><span class='line'>CNothing</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>这个函子的实例符合函子法则吗？我们只需要找到一个反例即可证明它不符合函子法则。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> fmap id (CJust 0 "haha")&lt;br/>
+</span><span class='line'>CJust 1 "haha"&lt;br/>
+</span><span class='line'>ghci> id (CJust 0 "haha")&lt;br/>
+</span><span class='line'>CJust 0 "haha"</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>显然，我们证明了 <code>CMaybe</code> 不符合第一条函子法则，尽管它是 <code>Functor</code> 类型类的一个实例。它也不满足第二条函子法则，因为我们组合几个函数后将组合结果跨函子映射的结果与分别将那几个函数跨函子映射的结果并不相同，因为 <code>CMaybe</code> 每被跨函子映射一次，<code>CJust</code> 的第一个域就会递增一次。</p>
 
@@ -354,7 +340,7 @@
 
 <p>迄今为止，当我们跨函子映射函数时，我们通常会映射只能接受一个参数的函数。如果我们向函子映射一个像 <code>*</code> 这样可接受两个参数的函数会怎么样？来看两个具体的例子。如果我们有 <code>Just 3</code>，那么 <code>fmap (*) (Just 3)</code> 可以得到什么？根据 <code>Maybe</code> 函子实例的实现，我们知道对于 <code>Just somthing</code> 这样的值，它会将函数应用于 <code>Just</code> 包含的 <code>somthing</code>。因此 <code>fmap (*) (Just 3)</code> 可以得到 <code>Just ((*) 3)</code>，使用分段的形式来写，即 <code>Just (* 3)</code>。有趣吧！我们得到了一个被封装在 <code>Just</code> 中的函数。可以在 GHCI 中试试这种新玩法：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -363,143 +349,55 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (++) (Just "hey")  
-</span><span class='line'>fmap (++) (Just "hey") :: Maybe ([Char] -> [Char])  
-</span><span class='line'>ghci> :t fmap compare (Just 'a')  
-</span><span class='line'>fmap compare (Just 'a') :: Maybe (Char -> Ordering)  
-</span><span class='line'>ghci> :t fmap compare "A LIST OF CHARS"  
-</span><span class='line'>fmap compare "A LIST OF CHARS" :: [Char -> Ordering]  
-</span><span class='line'>ghci> :t fmap (\x y z -> x + y / z) [3,4,5,6]  
-</span><span class='line'>fmap (\x y z -> x + y / z) [3,4,5,6] :: (Fractional a) => [a -> a -> a]</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> :t fmap (++) (Just "hey")&lt;br/>
+</span><span class='line'>fmap (++) (Just "hey") :: Maybe ([Char] -> [Char])&lt;br/>
+</span><span class='line'>ghci> :t fmap compare (Just 'a')&lt;br/>
+</span><span class='line'>fmap compare (Just 'a') :: Maybe (Char -> Ordering)&lt;br/>
+</span><span class='line'>ghci> :t fmap compare "A LIST OF CHARS"&lt;br/>
+</span><span class='line'>fmap compare "A LIST OF CHARS" :: [Char -> Ordering]&lt;br/>
+</span><span class='line'>ghci> :t fmap (\x y z -> x + y / z) [3,4,5,6]&lt;br/>
+</span><span class='line'>fmap (\x y z -> x + y / z) [3,4,5,6] :: (Fractional a) => [a -> a -> a]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>现在，我们知道了将一个多参数的函数跨函子映射得到的包含着函数的函子。这样做有什么用？我们可以向其映射可以接受那些函数作为参数的函数，因为无论是什么存在于函子的内部，它都可以作为我们所映射的函数的参数。</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> let a = fmap (*) [1,2,3,4]  
-</span><span class='line'>ghci> :t a  
-</span><span class='line'>a :: [Integer -> Integer]  
-</span><span class='line'>ghci> fmap (\f -> f 9) a  
-</span><span class='line'>[9,18,27,36]</span></code></pre></td></tr></table></div></figure>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>ghci> let a = fmap (*) [1,2,3,4]&lt;br/>
+</span><span class='line'>ghci> :t a&lt;br/>
+</span><span class='line'>a :: [Integer -> Integer]&lt;br/>
+</span><span class='line'>ghci> fmap (\f -> f 9) a&lt;br/>
+</span><span class='line'>[9,18,27,36]</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>但是，如果我们有 <code>Just (3 *)</code> 和 <code>Just 5</code> 这样两个函子值，我们希望从前者中提取出函数并将其映射到 <code>Just 5</code>，有没有办法？对于常规的函子，会比较麻烦，因为它们所支持的只是将常规的函数的跨函子映射。即使我们向一个包含着函数的函子映射 <code>\f -&gt; f 9</code>，那也不过是将常规函数的跨函子映射而已，而我们无法直接将一个函子所包含的函数映射到另一个函子。通过模式匹配固然可以实现这一目标，但是我们希望寻找一种更为通用和抽象的方法，它可以横穿两个函子。</p>
 
 <p>现在拜会一下 <code>Applicative</code> 类型类。它处于 <code>Control.Applicate</code> 模块，定义了两个方法，<code>pure</code> 与 <code>&lt;*&gt;</code>。它没有为这两个方法提供默认的实现，因此我们在希望某种东西是一个施用函子的话就必须自行定义它们。这个类型类的定义如下：</p>
 
-<figure class='code'><figcaption><span>language:haskell </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>language:haskell </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class (Functor f) => Applicative f where  
-</span><span class='line'>    pure :: a -> f a  
-</span><span class='line'>    (&lt;*>) :: f (a -> b) -> f a -> f b</span></code></pre></td></tr></table></div></figure>
-
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class (Functor f) => Applicative f where&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>pure :: a -&gt; f a  
+</span><span class='line'>(&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>这个类的三行定义看似简单，但是内涵却非常丰富！先来看第一行，它包含了一个类约束，用此表明想成为 <code>Applicative</code> 类型类的实例的类型构造子应当首先是一个函子的实例。如果我们知道了一个类型构造子是 <code>Applicative</code> 类型类的实例，那么这意味着它也是函子，所以我们可以对它应用 <code>fmap</code>。</p>
 
 <p>第一个方法是 <code>pure</code>，它的类型为 <code>pure :: a -&gt; fa</code>。<code>f</code> 在此扮演的角色是施用函子的实例。从类型签名可以看出，<code>pure</code> 接受一个任意类型的值并返回一个包含该值的施用函子。当我们说“包含该值”的时候，我们又一次使用了盒子的比喻。一种更好的理解方式是将 <code>pure</code> 视为接受一个值，然后将其置于某种默认的（或者纯的）上下文中——一个可以产生这个值的最小的上下文。</p>
 
 <p><code>&lt;*&gt;</code> 函数才是真正有趣的。它的类型签名是 <code>f (a -&gt; b) -&gt; f a -&gt; f b</code>。看到这个，你联想到什么了没？没错，那个 <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code>。可以将 <code>&lt;*&gt;</code> 视为某种程度上得到加强的 <code>fmap</code>，只不过后者接受的是函数和函子，而 <code>&lt;*&gt;</code> 接受的是两个函子——一个包含着函数，另一个包含着值——然后将函数映射到第二个函子的内部。</p>
-
-        
-        
-    </div>
-    <div class="meta">
-        <div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2012-08-18T08:48:00+08:00" pubdate data-updated="true">Aug 18<span>th</span>, 2012</time></div>
-        <div class="tags">
-
-<div class="cat">
-  
-    <a class='category' href='/blog/categories/haskell/'>Haskell</a>, <a class='category' href='/blog/categories/函子/'>函子</a>, <a class='category' href='/blog/categories/单子/'>单子</a>
-  
-</div>
-
-</div>
-        
-    </div>
-</article>
-
-
-    <article class="post">
-    <h1 class="title"><a href="/blog/2012/04/13/monads-for-the-curious-porgrammer/">单子求索</a></h1>
-    <div class="entry">
-        <p>原文见 <a href="http://bartoszmilewski.com">Bartosz Milewski 的系列博文</a>。</p>
-
-<pre><code>如是我闻：
-
-单子空空，力量无限
-用之愈多，所得愈多
-谈之愈多，知之愈少
-
-           ——《单子之道》
-</code></pre>
-
-<p>这样说不知是否夸张，似乎每个懂得了单子的程序员都会写一篇关于它的文章（而且每一篇的开头都是：网络上已经有了许多单子指南，但是……）。原因是对于单子的理解像是一种灵魂感悟，你想与他人分享。</p>
-
-<p>人们对单子的认知如同盲人摸象。你会看到有的人将它描述为容器，有的人将它描述为动作。有的人认为它是用于封装副作用的，也有人将其视为范畴论中自函子的实例。</p>
-
-<p>很难说清楚单子是个什么东西，因为它与我们日常生活中的事物毫无关系。对于面向对象编程中的对象，即使婴儿都知道对象是什么（可以放进嘴里的东西），单子该如何具化？</p>
-
-
-        
-        <a href="/blog/2012/04/13/monads-for-the-curious-porgrammer/" class="more-link">Read on &rarr;</a>
-    </div>
-    <div class="meta">
-        <div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-13T09:36:00+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2012</time></div>
-        <div class="tags">
-
-<div class="cat">
-  
-    <a class='category' href='/blog/categories/haskell/'>Haskell</a>, <a class='category' href='/blog/categories/单子/'>单子</a>, <a class='category' href='/blog/categories/技术/'>技术</a>
-  
-</div>
-
-</div>
-        
-    </div>
-</article>
-
-<nav id="pagenavi">
-    
-    
-    <a href="/blog/archives" class="center">Blog Archives</a>
-</nav></div>
-	<footer class="inner">Copyright &copy; 2012 劈柴者</footer>
-	<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script src="/javascripts/slash.js"></script>
-
-
-
-
-</body>
-</html>
+</feed>
